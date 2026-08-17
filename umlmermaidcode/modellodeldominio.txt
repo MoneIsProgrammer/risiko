@@ -1,0 +1,37 @@
+classDiagram
+
+
+    class Umano
+    class AI
+    class Continente
+    class Territorio {
+        <<interface>>
+        +getArmies()
+    }
+    class Giocatore {
+        +getTerritories()
+        +isHuman()
+        +getEvent()
+    }
+    class Mano {
+        +getCards()
+        +getComboes()
+    }
+    class Mazzo {
+        +shuffle()
+        +deal()
+    }
+    class Carta
+    class Evento
+
+    Giocatore <|.. Umano
+    Giocatore <|.. AI
+
+    Continente *-- Territorio
+
+    Giocatore  >--  Mano
+    Mano  *--  Carta
+    Mazzo *--  Carta
+
+    Territorio  --> Giocatore
+    Giocatore  -->  Evento
