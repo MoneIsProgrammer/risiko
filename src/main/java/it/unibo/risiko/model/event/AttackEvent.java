@@ -1,6 +1,6 @@
-package it.unibo.risiko.mvc.model.event;
+package it.unibo.risiko.model.event;
 
-import it.unibo.risiko.mvc.model.player.Player;
+import it.unibo.risiko.model.player.Player;
 
 /**
  * AttackEvent

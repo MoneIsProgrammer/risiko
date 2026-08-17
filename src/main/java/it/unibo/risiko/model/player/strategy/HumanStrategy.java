@@ -1,4 +1,4 @@
-package it.unibo.risiko.mvc.model.player.strategy;
+package it.unibo.risiko.model.player.strategy;
 
 public interface HumanStrategy {
     public void attackSource();

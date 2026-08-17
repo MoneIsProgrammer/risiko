@@ -1,10 +1,10 @@
-package it.unibo.risiko.mvc.model.player.strategy;
+package it.unibo.risiko.model.player.strategy;
 
 import java.util.Optional;
 
-import it.unibo.risiko.mvc.model.event.AttackEvent;
-import it.unibo.risiko.mvc.model.event.MoveEvent;
-import it.unibo.risiko.mvc.model.event.ReinforceEvent;
+import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.MoveEvent;
+import it.unibo.risiko.model.event.ReinforceEvent;
 
 public interface PlayerStrategy {
 

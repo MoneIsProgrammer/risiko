@@ -1,4 +1,4 @@
-package it.unibo.risiko.mvc.model.event;
+package it.unibo.risiko.model.event;
 
 /**
  * EventVisitor
