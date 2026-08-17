@@ -1,4 +1,4 @@
-samplejavafx è da rimuovere appena abbiamo un'app funzionale, per adesso la teniamo come esempio
-aggiungere licenza open source
-attendo anche le vostre parti di interfaccia
-latex è la cartella per la relazione, quando finita va esportata in pdf, latex accetta immagini è da fare una cartella resources per latex
+-samplejavafx è da rimuovere appena abbiamo un'app funzionale, per adesso la teniamo come esempio  
+-aggiungere licenza open source  
+-attendo anche le vostre parti di interfaccia  
+-latex è la cartella per la relazione, quando finita va esportata in pdf, latex accetta immagini è da fare una cartella resources per latex  
