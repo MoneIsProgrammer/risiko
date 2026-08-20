@@ -1,6 +1,6 @@
 package it.unibo.risiko.model.player.strategy;
 
-public interface HumanStrategy {
+public interface HumanStrategy extends PlayerStrategy{
     public void attackSource();
 
     public void attackDestination();
