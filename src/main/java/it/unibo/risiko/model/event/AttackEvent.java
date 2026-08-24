@@ -1,38 +1,26 @@
 package it.unibo.risiko.model.event;
 
-import it.unibo.risiko.model.player.Player;
-
-/**
- * Event that mododels the intent of a player to attack another
+/** 
+ * Event that models the intent of a player to attack another.
+ *
+ * @param attacker the attacker
+ * @param defender   the victim
+ * @param attackerStrength troops used by attacker
+ * @param defenderStrength troops defending
+ * @param attackSource territory where the attack came
+ * @param attackDestination destination territory of attack
  */
-public interface AttackEvent extends Event{
-    /**
-     * @return the player that intends to attack
-     */
-    public Player getAttacker();
+public record AttackEvent(
+    String attacker,
+    String defender,
+    int attackerStrength,
+    int defenderStrength,
+    String attackSource,
+    String attackDestination
+) implements Event {
 
-    /**
-     * @return the player that is being attacked
-     */
-    public Player getDefender();
-
-    /**
-     * @return the number of troops used for the attack
-     */
-    public int getAttackerStrenght();
-
-    /**
-     * @return the number of troops used to defend 
-     */
-    public int getDefenderStrenght();
-
-    /**
-     * @return the territory from where the attack came from
-     */
-    public void getAttackSource();
-
-    /**
-     * @return the territory targeted by the attack
-     */
-    public void getAttackDestination();//replace void di territories
+    @Override
+    public <T> T accept(final EventVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

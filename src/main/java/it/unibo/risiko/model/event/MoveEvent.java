@@ -1,22 +1,22 @@
 package it.unibo.risiko.model.event;
 
-
 /**
- * Event that models the movement of troops from a owned territory to another
+ * Event that models the movement of troops from a owned territory to another.
+ * 
+ * @param player that generated event
+ * @param sourceTerritory territory from which troops came from
+ * @param destinationTerritory territory where troops will end up
+ * @param troopsMoved numbere of troops moved
  */
-public interface MoveEvent extends Event{
-    /**
-     * @return the Territory from which the troops came from
-     */
-    void getSource(); // chenge void with territory interface
+public record MoveEvent(
+    String player,
+    String sourceTerritory,
+    String destinationTerritory,
+    int troopsMoved
+) implements Event {
 
-    /**
-     * @return the Territory to where the troops end up
-     */
-    void getDestination();
-
-    /**
-     * @return the number of troops moved from Source to Destination
-     */
-    int troopsMoved();
+    @Override
+    public <T> T accept(final EventVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
