@@ -26,7 +26,7 @@ public record ReinforceEvent(
      * @return the total troops that are gained in the reinforcement
      */
     public int totalReinforcement() {
-        return reinforcement.values().stream().mapToInt(Integer::intValue).sum();
+        return reinforcement.values().stream().mapToInt(i -> i).sum();
     }
 
     @Override
