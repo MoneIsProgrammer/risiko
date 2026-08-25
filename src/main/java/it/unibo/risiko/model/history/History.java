@@ -9,11 +9,13 @@ import it.unibo.risiko.model.event.Event;
  */
 public interface History {
     /**
+     * Used to get all the events that happened in a ordered list from newest to oldest
      * @return a List of all Events that happened
      */
     List<Event> getAllEvents();
 
     /**
+     * Used to get a portion of the events in a ordered list from newest to oldest
      * @param n number of Events in the return list
      * @return the last n Events in the list starting from last-n until last,
      *      if n is greater than the total number of events there will be less than n elements
@@ -21,11 +23,13 @@ public interface History {
     List<Event> getLastNEvents(int n);
 
     /**
+     * Used to know how many elements are present in the history
      * @return the number of events present in History
      */
     int getTotalEvents();
 
     /**
+     * Used to add an event as the newest element of the list
      * @param event the event to be added to the History
      */
     void addEvent(Event event);
