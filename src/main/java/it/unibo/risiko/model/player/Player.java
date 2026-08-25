@@ -15,26 +15,31 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
  */
 public interface Player {
     /**
+     * Returns the Strategy used by the player
      * @return the strategy used by the player, useful if the strategy requires succesive method calls to build the event
      */
     PlayerStrategy getStrategy();
 
     /**
+     * If the player is controlled by a human returns true, else returns false
      * @return true if the player is human controlled
      */
     boolean isHuman();
 
     /**
+     * Used to get the next attack that the player wants to take
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
     Optional<AttackEvent> attack();
 
     /**
+     * Used to get the transfer of troops from a territory to another
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
     Optional<MoveEvent> move();
 
     /**
+     * Used to get the reinforcement to various territories
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
     Optional<ReinforceEvent> reinforce();
