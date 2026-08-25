@@ -33,4 +33,10 @@ public interface History {
      * @param event the event to be added to the History
      */
     void addEvent(Event event);
+
+    /**
+     * Used to create a History with various events from zero
+     * @param history Overwrites current History with the passed list of Events
+     */
+    void restoreHistory(List<Event> history);
 }
