@@ -5,34 +5,36 @@ import java.util.List;
 
 import it.unibo.risiko.model.event.Event;
 
-public class HistoryImpl implements History{
+/**
+ * Implementation of History.
+ */
+public class HistoryImpl implements History {
 
-    List<Event> history = new LinkedList<>();
+    private final List<Event> history = new LinkedList<>();
 
     @Override
-    public List<Event> getAllEvents() {
+    public final List<Event> getAllEvents() {
         return List.copyOf(this.history);
     }
 
     @Override
-    public List<Event> getLastNEvents(int n) {
+    public final List<Event> getLastNEvents(final int n) {
         return this.history.stream().limit(n).toList();
     }
 
     @Override
-    public int getTotalEvents() {
+    public final int getTotalEvents() {
         return this.history.size();
     }
 
     @Override
-    public void addEvent(Event event) {
+    public final void addEvent(final Event event) {
         this.history.add(event);
     }
 
     @Override
-    public void restoreHistory(List<Event> history) {
+    public final void restoreHistory(final List<Event> newHistory) {
         this.history.clear();
-        this.history.addAll(history);
+        this.history.addAll(newHistory);
     }
-    
 }

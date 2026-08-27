@@ -5,30 +5,31 @@ import java.util.Objects;
 import javafx.scene.paint.Color;
 
 /**
- * PlayerRequest
+ * Used as DTO between view and model to generate players.
+ * 
  * @param name name of the player
- * @param Ai type of ai player will use
+ * @param ai type of ai player will use
  * @param color color of the player, unique is preferred
  */
-public record PlayerRequest(String name, PlayerAI Ai, Color color) {
+public record PlayerRequest(String name, PlayerAI ai, Color color) {
     /**
-     * Type of ai this player will use
+     * Type of ai this player will use.
      */
-    public final static class PlayerAI {
-        public final static PlayerAI AGGRESSIVE = new PlayerAI("aggressive");
-        public final static PlayerAI DEFENSIVE = new PlayerAI("defensive");
-        public final static PlayerAI RANDOM = new PlayerAI("random");
-        public final static PlayerAI HUMAN = new PlayerAI("human");
+    public static final class PlayerAI {
+        public static final PlayerAI AGGRESSIVE = new PlayerAI("aggressive");
+        public static final PlayerAI DEFENSIVE = new PlayerAI("defensive");
+        public static final PlayerAI RANDOM = new PlayerAI("random");
+        public static final PlayerAI HUMAN = new PlayerAI("human");
         private final String ai;
-        
-        private PlayerAI(String ai) {
+
+        private PlayerAI(final String ai) {
             this.ai = ai;
         }
 
         @Override
-        public boolean equals(Object object) {
+        public boolean equals(final Object object) {
             if (object instanceof PlayerAI) {
-                PlayerAI p = (PlayerAI)object;
+                final PlayerAI p = (PlayerAI) object;
                 return this.ai.equals(p.ai);
             }
             return false;

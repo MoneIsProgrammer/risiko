@@ -14,7 +14,8 @@ public record ReinforceEvent(
 ) implements Event {
 
     /**
-     * Constructor for ReinforceEvent
+     * Constructor for ReinforceEvent.
+     * 
      * @param player that generates this event
      * @param reinforcement map of territory with troops to add to each one
      */
@@ -24,7 +25,8 @@ public record ReinforceEvent(
     }
 
     /**
-     * Calculates how many troops are added in this event
+     * Calculates how many troops are added in this event.
+     * 
      * @return the total troops that are gained in the reinforcement
      */
     public int totalReinforcement() {
@@ -32,7 +34,8 @@ public record ReinforceEvent(
     }
 
     /**
-     * Used to get a copy of the map of territory and reinforcements
+     * Used to get a copy of the map of territory and reinforcements.
+     * 
      * @return an immutable copy of the territories and their number of additional troops
      */
     @Override
