@@ -2,6 +2,7 @@ package it.unibo.risiko.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import it.unibo.risiko.model.player.PlayerRequest;
 import it.unibo.risiko.model.player.PlayerRequest.PlayerAI;
@@ -40,9 +41,11 @@ public class PlayerSelectScene extends Scene {
     private final List<PlayerRequest> players = new ArrayList<>();
 
     private int counter;
+    private Consumer<List<PlayerRequest>> onDone;
 
-    public PlayerSelectScene() {
+    public PlayerSelectScene(Consumer<List<PlayerRequest>> onDone) {
         super(new GridPane(), WIDTH, HEIGHT);
+        this.onDone = onDone;
         this.top = new FlowPane();
         this.bottom = new HBox();
         this.mainBox = (GridPane) this.getRoot();
@@ -136,5 +139,6 @@ public class PlayerSelectScene extends Scene {
         for (PlayerRequest playerRequest : players) {
             System.out.print(playerRequest.name());
         }
+        this.onDone.accept(players);
     }
 }
