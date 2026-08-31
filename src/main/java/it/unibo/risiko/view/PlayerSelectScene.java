@@ -3,6 +3,8 @@ package it.unibo.risiko.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.risiko.model.player.PlayerRequest;
+import it.unibo.risiko.model.player.PlayerRequest.PlayerAI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,6 +36,8 @@ public class PlayerSelectScene extends Scene {
     private final Button add;
     private final Button done;
     private final TextField field;
+
+    private final List<PlayerRequest> players = new ArrayList<>();
 
     private int counter;
 
@@ -118,12 +122,19 @@ public class PlayerSelectScene extends Scene {
         );
         FlowPane.setMargin(box, new Insets(10));
         box.setOnMouseClicked(
-            e -> top.getChildren().remove(box)
+            e -> {
+                int i = top.getChildren().indexOf(box);
+                top.getChildren().remove(i);
+                players.remove(i);
+            }
         );
         top.getChildren().add(box);
+        players.add(new PlayerRequest(field.getText() + counter, PlayerAI.HUMAN, null));
     }
 
     private void getOutput() {
-
+        for (PlayerRequest playerRequest : players) {
+            System.out.print(playerRequest.name());
+        }
     }
 }
