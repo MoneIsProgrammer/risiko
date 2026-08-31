@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -47,10 +48,18 @@ public class PlayerSelectScene extends Scene {
     }
 
     private void initializeLayout() {
-        //mainBox.getChildren().addAll(top, bottom);
+        top.setMaxWidth(Double.MAX_VALUE);
+        bottom.setMaxWidth(Double.MAX_VALUE);
         mainBox.addRow(0, top);
         mainBox.addRow(1, bottom);
-        mainBox.getRowConstraints();
+        var topSize = new RowConstraints();
+        topSize.setPercentHeight(70);
+        var botSize = new RowConstraints();
+        botSize.setPercentHeight(30);
+        var columnSize = new ColumnConstraints();
+        columnSize.setPercentWidth(100);
+        mainBox.getColumnConstraints().add(columnSize);
+        mainBox.getRowConstraints().addAll(topSize,botSize);
         mainBox.setAlignment(Pos.CENTER);
         bottom.getChildren().addAll(add, remove, field);
         top.setBackground(
@@ -65,8 +74,6 @@ public class PlayerSelectScene extends Scene {
         );
         top.setMaxWidth(Double.MAX_VALUE);
         bottom.setMaxWidth(Double.MAX_VALUE);
-        VBox.setVgrow(top, Priority.ALWAYS);
-        VBox.setVgrow(bottom, Priority.ALWAYS);
         FlowPane.setMargin(top, new Insets(10));
         top.setOnMouseEntered(
             e -> top.setBackground(
@@ -83,7 +90,7 @@ public class PlayerSelectScene extends Scene {
             )
         );
     }
-    
+
     private void initializeButtons() {
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
