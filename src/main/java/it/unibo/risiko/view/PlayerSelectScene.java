@@ -1,5 +1,8 @@
 package it.unibo.risiko.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,7 +32,7 @@ public class PlayerSelectScene extends Scene {
     private final GridPane mainBox;
 
     private final Button add;
-    private final Button remove;
+    private final Button done;
     private final TextField field;
 
     private int counter;
@@ -40,7 +43,7 @@ public class PlayerSelectScene extends Scene {
         this.bottom = new HBox();
         this.mainBox = (GridPane) this.getRoot();
         this.add = new Button("add");
-        this.remove = new Button("remove");
+        this.done = new Button("done");
         this.field = new TextField();
         this.counter = 0;
         initializeLayout();
@@ -61,7 +64,7 @@ public class PlayerSelectScene extends Scene {
         mainBox.getColumnConstraints().add(columnSize);
         mainBox.getRowConstraints().addAll(topSize,botSize);
         mainBox.setAlignment(Pos.CENTER);
-        bottom.getChildren().addAll(add, remove, field);
+        bottom.getChildren().addAll(add, done, field);
         top.setBackground(
             new Background(
                 new BackgroundFill(Color.RED, null, null)
@@ -92,12 +95,8 @@ public class PlayerSelectScene extends Scene {
     }
 
     private void initializeButtons() {
-        add.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                addPlayer();
-            }
-        });
+        add.setOnAction(e -> addPlayer());
+        done.setOnAction(e -> getOutput());
     }
 
     private void addPlayer() {
@@ -122,5 +121,9 @@ public class PlayerSelectScene extends Scene {
             e -> top.getChildren().remove(box)
         );
         top.getChildren().add(box);
+    }
+
+    private void getOutput() {
+
     }
 }
