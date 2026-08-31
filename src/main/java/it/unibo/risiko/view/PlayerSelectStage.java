@@ -1,5 +1,9 @@
 package it.unibo.risiko.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import it.unibo.risiko.model.player.PlayerRequest;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,9 +16,15 @@ import javafx.stage.Stage;
 public class PlayerSelectStage extends Application{
 
     @Override
-    public void start(Stage stage) throws Exception {// Create an Ellipse and set fill color
+    public void start(Stage stage) throws Exception {
+        List<PlayerRequest> list = new ArrayList<>();
         stage.setTitle("MyShapes with JavaFX");
-        stage.setScene(this.makScene(e -> stage.setScene(new PlayerSelectScene())));
+        stage.setScene(this.makScene(e -> stage.setScene(new PlayerSelectScene(a -> {
+            list.addAll(a);
+            for (PlayerRequest playerRequest : list) {
+                System.out.print("Outer" + playerRequest.name());
+            }
+        }))));
         stage.show();
     }
 
