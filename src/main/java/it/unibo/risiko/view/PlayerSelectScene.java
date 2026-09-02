@@ -29,6 +29,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class PlayerSelectScene extends Scene {
 
@@ -83,23 +84,24 @@ public class PlayerSelectScene extends Scene {
         mainBox.addRow(0, top);
         mainBox.addRow(1, bottom);
         var topSize = new RowConstraints();
-        topSize.setPercentHeight(70);
+        topSize.setPercentHeight(50);
         var botSize = new RowConstraints();
-        botSize.setPercentHeight(30);
+        botSize.setPercentHeight(60);
         var columnSize = new ColumnConstraints();
         columnSize.setPercentWidth(100);
         mainBox.getColumnConstraints().add(columnSize);
         mainBox.getRowConstraints().addAll(topSize,botSize);
         mainBox.setAlignment(Pos.CENTER);
         bottom.setTop(done);
-        bottom.setCenter(playerChoiceBox);
-        bottom.setBottom(field);
+        bottom.setBottom(playerChoiceBox);
+        bottom.setCenter(field);
         //bottom.setPadding(new Insets(10));
         playerChoiceBox.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(this.done, Pos.TOP_CENTER);
         BorderPane.setMargin(done, new Insets(0, 0, 20, 0));
         BorderPane.setMargin(playerChoiceBox, new Insets(0, 0, 20, 0));
         BorderPane.setMargin(this.field, new Insets(20));
+        BorderPane.setAlignment(this.field, Pos.CENTER);
         top.setBackground(
             new Background(
                 new BackgroundFill(BACKGROUN_COLOR, null, null)
@@ -112,32 +114,38 @@ public class PlayerSelectScene extends Scene {
         );
         top.setMaxWidth(Double.MAX_VALUE);
         bottom.setMaxWidth(Double.MAX_VALUE);
-        FlowPane.setMargin(top, new Insets(10));
+        //FlowPane.setMargin(top, new Insets(10));
         this.field.setPromptText("Nome del giocatore");
+        this.field.maxWidthProperty().bind(bottom.widthProperty().multiply(0.5));
+        this.field.setPrefHeight(30);
+
     }
 
     private void initializeButtons() {
         this.addHuman.setOnAction(e -> addPlayer(PlayerAI.HUMAN));
-        this.addHuman.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
-        this.addHuman.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
+        this.buttSettings(addHuman);
 
         this.addAggressive.setOnAction(e -> addPlayer(PlayerAI.AGGRESSIVE));
-        this.addAggressive.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
-        this.addAggressive.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
+        this.buttSettings(addAggressive);
 
         this.addRandom.setOnAction(e -> addPlayer(PlayerAI.RANDOM));
-        this.addRandom.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
-        this.addRandom.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
+        this.buttSettings(addRandom);
 
         this.addDefensive.setOnAction(e -> addPlayer(PlayerAI.DEFENSIVE));
-        this.addDefensive.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
-        this.addDefensive.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
+        buttSettings(this.addDefensive);
 
         done.setOnAction(e -> getOutput());
         this.done.prefWidthProperty().bind(bottom.widthProperty().multiply(0.9));
         this.done.prefHeightProperty().bind(bottom.heightProperty().multiply(0.2));
         this.done.setDisable(true);
+        this.done.fontProperty().bind(addHuman.widthProperty().multiply(0.2).map(size -> Font.font(size.doubleValue())));
         
+    }
+
+    private void buttSettings(Button butt) {
+        butt.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
+        butt.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
+        butt.fontProperty().bind(addHuman.heightProperty().multiply(0.2).map(size -> Font.font(size.doubleValue())));
     }
 
     private void addPlayer(PlayerAI playerType) {
@@ -157,8 +165,9 @@ public class PlayerSelectScene extends Scene {
                 new BackgroundFill(color, new CornerRadii(5), Insets.EMPTY)
             )
         );
+        name.fontProperty().bind(name.widthProperty().multiply(0.1).map(size -> Font.font(size.doubleValue())));
         box.prefWidthProperty().bind(top.widthProperty().multiply(0.25));
-        box.prefHeightProperty().bind(top.heightProperty().multiply(0.30));
+        box.prefHeightProperty().bind(top.heightProperty().multiply(0.40));
         name.setAlignment(Pos.CENTER);
         name.setPadding(new Insets(5));
         VBox.setMargin(name, new Insets(5, 10, 0, 10));
