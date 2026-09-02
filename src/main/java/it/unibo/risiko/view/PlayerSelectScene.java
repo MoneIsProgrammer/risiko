@@ -3,10 +3,9 @@ package it.unibo.risiko.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
 import it.unibo.risiko.model.player.PlayerRequest;
 import it.unibo.risiko.model.player.PlayerRequest.PlayerAI;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,12 +24,14 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * Scene for the creation of the player roster.
+ */
 public class PlayerSelectScene extends Scene {
 
     private static final int WIDTH = 500;
@@ -38,7 +39,6 @@ public class PlayerSelectScene extends Scene {
     private static final int MAX_PLAYERS = 6;
     private static final int MIN_PLAYERS = 3;
     private static final Color BACKGROUN_COLOR = Color.GREY;
-
 
     private final FlowPane top;
     private final BorderPane bottom;
@@ -55,14 +55,22 @@ public class PlayerSelectScene extends Scene {
     private final List<PlayerRequest> players = new ArrayList<>();
     private final List<Color> playerColors = new ArrayList<>();
 
-    private int counter = 0;
+    private int counter;
     private final Consumer<List<PlayerRequest>> onDone;
 
-    public PlayerSelectScene(Consumer<List<PlayerRequest>> onDone) {
-        this(onDone,WIDTH, HEIGHT);
+    /**
+     * @param onDone used to get the resulting player roster
+     */
+    public PlayerSelectScene(final Consumer<List<PlayerRequest>> onDone) {
+        this(onDone, WIDTH, HEIGHT);
     }
 
-    public PlayerSelectScene(Consumer<List<PlayerRequest>> onDone, int width, int height) {
+    /**
+     * @param onDone used to get the resulting player roster
+     * @param width  of the scene
+     * @param height of the scene
+     */
+    public PlayerSelectScene(final Consumer<List<PlayerRequest>> onDone, final int width, final int height) {
         super(new GridPane(), width, height);
         this.onDone = onDone;
         this.top = new FlowPane();
@@ -74,54 +82,54 @@ public class PlayerSelectScene extends Scene {
         this.addRandom = new Button("random");
         this.done = new Button("Inizia la partita");
         this.field = new TextField();
-        this.playerColors.addAll(List.of(Color.YELLOW,Color.RED,Color.GREEN,Color.BLUE,Color.PINK,Color.BLACK));
+        this.playerColors.addAll(List.of(Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.PINK, Color.BLACK));
         initializeLayout();
         initializeButtons();
     }
 
     private void initializeLayout() {
-        var playerChoiceBox = new HBox(addHuman,addAggressive,addDefensive,addRandom);
-        playerChoiceBox.setSpacing(25);
+        final var choiceBoxSpacing = 25;
+        final var topPercentageHeight = 40;
+        final double insetsSpacing = 20;
+        final var playerChoiceBox = new HBox(addHuman, addAggressive, addDefensive, addRandom);
+        playerChoiceBox.setSpacing(choiceBoxSpacing);
         top.setMaxWidth(Double.MAX_VALUE);
         top.setAlignment(Pos.TOP_CENTER);
         bottom.setMaxWidth(Double.MAX_VALUE);
         mainBox.addRow(0, top);
         mainBox.addRow(1, bottom);
-        var topSize = new RowConstraints();
-        topSize.setPercentHeight(50);
-        var botSize = new RowConstraints();
-        botSize.setPercentHeight(60);
-        var columnSize = new ColumnConstraints();
+        final var topSize = new RowConstraints();
+        topSize.setPercentHeight(topPercentageHeight);
+        final var botSize = new RowConstraints();
+        botSize.setPercentHeight(100 - topPercentageHeight);
+        final var columnSize = new ColumnConstraints();
         columnSize.setPercentWidth(100);
         mainBox.getColumnConstraints().add(columnSize);
-        mainBox.getRowConstraints().addAll(topSize,botSize);
+        mainBox.getRowConstraints().addAll(topSize, botSize);
         mainBox.setAlignment(Pos.CENTER);
         bottom.setTop(done);
         bottom.setBottom(playerChoiceBox);
         bottom.setCenter(field);
-        //bottom.setPadding(new Insets(10));
+        // bottom.setPadding(new Insets(10));
         playerChoiceBox.setAlignment(Pos.CENTER);
         BorderPane.setAlignment(this.done, Pos.TOP_CENTER);
-        BorderPane.setMargin(done, new Insets(0, 0, 20, 0));
-        BorderPane.setMargin(playerChoiceBox, new Insets(0, 0, 20, 0));
-        BorderPane.setMargin(this.field, new Insets(20));
+        BorderPane.setMargin(done, new Insets(0, 0, insetsSpacing, 0));
+        BorderPane.setMargin(playerChoiceBox, new Insets(0, 0, insetsSpacing, 0));
+        BorderPane.setMargin(this.field, new Insets(insetsSpacing));
         BorderPane.setAlignment(this.field, Pos.CENTER);
         top.setBackground(
-            new Background(
-                new BackgroundFill(BACKGROUN_COLOR, null, null)
-            )
-        );
+                new Background(
+                        new BackgroundFill(BACKGROUN_COLOR, null, null)));
         bottom.setBackground(
-            new Background(
-                new BackgroundFill(BACKGROUN_COLOR, null, null)
-            )
-        );
+                new Background(
+                        new BackgroundFill(BACKGROUN_COLOR, null, null)));
         top.setMaxWidth(Double.MAX_VALUE);
         bottom.setMaxWidth(Double.MAX_VALUE);
-        //FlowPane.setMargin(top, new Insets(10));
         this.field.setPromptText("Nome del giocatore");
-        this.field.maxWidthProperty().bind(bottom.widthProperty().multiply(0.5));
-        this.field.setPrefHeight(30);
+        final double fieldHeightMult = 0.5;
+        this.field.maxWidthProperty().bind(bottom.widthProperty().multiply(fieldHeightMult));
+        final int fieldHeight = 30;
+        this.field.setPrefHeight(fieldHeight);
 
     }
 
@@ -138,66 +146,74 @@ public class PlayerSelectScene extends Scene {
         this.addDefensive.setOnAction(e -> addPlayer(PlayerAI.DEFENSIVE));
         buttSettings(this.addDefensive);
 
-        done.setOnAction(e -> getOutput());
-        this.done.prefWidthProperty().bind(bottom.widthProperty().multiply(0.9));
-        this.done.prefHeightProperty().bind(bottom.heightProperty().multiply(0.2));
+        done.setOnAction(e -> finish());
+        final double doneWidthMult = 0.9;
+        this.done.prefWidthProperty().bind(bottom.widthProperty().multiply(doneWidthMult));
+        final double fontMult = 0.2;
+        final double doneHeightMult = 0.2;
+        this.done.prefHeightProperty().bind(bottom.heightProperty().multiply(doneHeightMult));
         this.done.setDisable(true);
-        this.done.fontProperty().bind(addHuman.widthProperty().multiply(0.2).map(size -> Font.font(size.doubleValue())));
-        
+        this.done.fontProperty()
+                .bind(addHuman.widthProperty().multiply(fontMult).map(size -> Font.font(size.doubleValue())));
+
     }
 
-    private void buttSettings(Button butt) {
-        butt.prefWidthProperty().bind(bottom.widthProperty().multiply(0.2));
-        butt.prefHeightProperty().bind(bottom.heightProperty().multiply(0.4));
-        butt.fontProperty().bind(addHuman.heightProperty().multiply(0.2).map(size -> Font.font(size.doubleValue())));
+    private void buttSettings(final Button butt) {
+        final double widthMult = 0.2;
+        butt.prefWidthProperty().bind(bottom.widthProperty().multiply(widthMult));
+        final double heightMult = 0.4;
+        butt.prefHeightProperty().bind(bottom.heightProperty().multiply(heightMult));
+        butt.fontProperty()
+                .bind(addHuman.heightProperty().multiply(widthMult).map(size -> Font.font(size.doubleValue())));
     }
 
-    private void addPlayer(PlayerAI playerType) {
-        if(this.counter >= MAX_PLAYERS) {
+    private void addPlayer(final PlayerAI playerType) {
+        if (this.counter >= MAX_PLAYERS) {
             return;
         }
         this.counter++;
-        String nickname = this.field.getText().isBlank() ? playerType.toString() + Integer.toString(this.counter) : this.field.getText();
-        Color color = this.playerColors.removeFirst();
-        VBox box = new VBox();
-        Label name = new Label(nickname);
+        final String nickname = this.field.getText().isBlank() ? playerType.toString() + Integer.toString(this.counter)
+                : this.field.getText();
+        final Color color = this.playerColors.removeFirst();
+        final VBox box = new VBox();
+        final Label name = new Label(nickname);
         name.setPrefWidth(Double.MAX_VALUE);
-        name.setBackground(new Background(new BackgroundFill(Color.WHITE,CornerRadii.EMPTY,Insets.EMPTY)));
+        name.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         box.getChildren().add(name);
+        final int spacing = 5;
         box.setBackground(
-            new Background(
-                new BackgroundFill(color, new CornerRadii(5), Insets.EMPTY)
-            )
-        );
-        name.fontProperty().bind(name.widthProperty().multiply(0.1).map(size -> Font.font(size.doubleValue())));
-        box.prefWidthProperty().bind(top.widthProperty().multiply(0.25));
-        box.prefHeightProperty().bind(top.heightProperty().multiply(0.40));
+                new Background(
+                        new BackgroundFill(color, new CornerRadii(spacing), Insets.EMPTY)));
+        final double fontMult = 0.1;
+        name.fontProperty().bind(name.widthProperty().multiply(fontMult).map(size -> Font.font(size.doubleValue())));
+        final double prefWidthMult = 0.25;
+        box.prefWidthProperty().bind(top.widthProperty().multiply(prefWidthMult));
+        final double prefHeightMult = 0.40;
+        box.prefHeightProperty().bind(top.heightProperty().multiply(prefHeightMult));
         name.setAlignment(Pos.CENTER);
-        name.setPadding(new Insets(5));
-        VBox.setMargin(name, new Insets(5, 10, 0, 10));
+        name.setPadding(new Insets(10));
+        VBox.setMargin(name, new Insets(10, 10, 0, 10));
 
-        box.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,new CornerRadii(5),new BorderWidths(5))));
+        box.setBorder(new Border(
+                new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(spacing),
+                        new BorderWidths(spacing))));
         FlowPane.setMargin(box, new Insets(10));
         box.setOnMouseClicked(
-            e -> {
-                int i = top.getChildren().indexOf(box);
-                top.getChildren().remove(i);
-                var temp = players.remove(i);
-                this.playerColors.add(temp.color());
-                this.counter--;
-                this.done.setDisable(counter < MIN_PLAYERS);
-            }
-        );
+                e -> {
+                    final int i = top.getChildren().indexOf(box);
+                    top.getChildren().remove(i);
+                    final var temp = players.remove(i);
+                    this.playerColors.add(temp.color());
+                    this.counter--;
+                    this.done.setDisable(counter < MIN_PLAYERS);
+                });
         top.getChildren().add(box);
         players.add(new PlayerRequest(nickname, playerType, color));
         this.field.setText("");
         this.done.setDisable(counter < MIN_PLAYERS);
     }
 
-    private void getOutput() {
-        for (PlayerRequest playerRequest : players) {
-            System.out.print(playerRequest.name());
-        }
+    private void finish() {
         this.onDone.accept(players);
     }
 }
