@@ -27,6 +27,11 @@ public record PlayerRequest(String name, PlayerAI ai, Color color) {
         }
 
         @Override
+        public String toString() {
+            return this.ai;
+        }
+
+        @Override
         public boolean equals(final Object object) {
             if (object instanceof PlayerAI) {
                 final PlayerAI p = (PlayerAI) object;
