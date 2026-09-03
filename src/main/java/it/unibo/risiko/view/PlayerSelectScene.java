@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import it.unibo.risiko.model.player.PlayerRequest;
-import it.unibo.risiko.model.player.PlayerRequest.PlayerStrategy;
+import it.unibo.risiko.model.player.PlayerRequest.PlayerStrategyRequest;
 import it.unibo.risiko.utils.ColorConversion;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -137,16 +137,16 @@ public class PlayerSelectScene extends Scene {
     }
 
     private void initializeButtons() {
-        this.addHuman.setOnAction(e -> addPlayer(PlayerStrategy.HUMAN));
+        this.addHuman.setOnAction(e -> addPlayer(PlayerStrategyRequest.HUMAN));
         this.buttSettings(addHuman);
 
-        this.addAggressive.setOnAction(e -> addPlayer(PlayerStrategy.AGGRESSIVE));
+        this.addAggressive.setOnAction(e -> addPlayer(PlayerStrategyRequest.AGGRESSIVE));
         this.buttSettings(addAggressive);
 
-        this.addRandom.setOnAction(e -> addPlayer(PlayerStrategy.RANDOM));
+        this.addRandom.setOnAction(e -> addPlayer(PlayerStrategyRequest.RANDOM));
         this.buttSettings(addRandom);
 
-        this.addDefensive.setOnAction(e -> addPlayer(PlayerStrategy.DEFENSIVE));
+        this.addDefensive.setOnAction(e -> addPlayer(PlayerStrategyRequest.DEFENSIVE));
         buttSettings(this.addDefensive);
 
         done.setOnAction(e -> finish());
@@ -170,7 +170,7 @@ public class PlayerSelectScene extends Scene {
                 .bind(addHuman.heightProperty().multiply(widthMult).map(size -> Font.font(size.doubleValue())));
     }
 
-    private void addPlayer(final PlayerStrategy playerType) {
+    private void addPlayer(final PlayerStrategyRequest playerType) {
         if (this.counter >= MAX_PLAYERS) {
             return;
         }
