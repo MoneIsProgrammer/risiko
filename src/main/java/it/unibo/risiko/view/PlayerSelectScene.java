@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import it.unibo.risiko.model.player.PlayerRequest;
 import it.unibo.risiko.model.player.PlayerRequest.PlayerStrategy;
+import it.unibo.risiko.utils.ColorConversion;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -84,7 +85,7 @@ public class PlayerSelectScene extends Scene {
         this.addRandom = new Button("random");
         this.done = new Button("Inizia la partita");
         this.field = new TextField();
-        this.playerColors.addAll(List.of(Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.PINK, Color.BLACK));
+        this.playerColors.addAll(ColorConversion.getAvabileJavaFXColors());
         initializeLayout();
         initializeButtons();
     }
@@ -205,12 +206,12 @@ public class PlayerSelectScene extends Scene {
                     final int i = top.getChildren().indexOf(box);
                     top.getChildren().remove(i);
                     final var temp = players.remove(i);
-                    this.playerColors.add(temp.color());
+                    this.playerColors.add(ColorConversion.toJavaFxColor(temp.color()));
                     this.counter--;
                     this.done.setDisable(counter < MIN_PLAYERS);
                 });
         top.getChildren().add(box);
-        players.add(new PlayerRequest(nickname, playerType, color));
+        players.add(new PlayerRequest(nickname, playerType, ColorConversion.toRisikoColor(color)));
         this.field.setText("");
         this.done.setDisable(counter < MIN_PLAYERS);
     }

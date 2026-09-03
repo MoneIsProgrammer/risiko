@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
  * @param ai type of ai player will use
  * @param color color of the player, unique is preferred
  */
-public record PlayerRequest(String name, PlayerStrategy ai, Color color) {
+public record PlayerRequest(String name, PlayerStrategy ai, RisikoColors color) {
     /**
      * Type of ai this player will use.
      */
