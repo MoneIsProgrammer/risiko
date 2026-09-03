@@ -2,8 +2,6 @@ package it.unibo.risiko.model.player;
 
 import java.util.Objects;
 
-import javafx.scene.paint.Color;
-
 /**
  * Used as DTO between view and model to generate players.
  * 
