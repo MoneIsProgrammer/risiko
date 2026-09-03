@@ -16,7 +16,7 @@ public class PlayerFactoryImpl implements PlayerFactory {
         return new PlayerImpl(playerRequest.color(), playerRequest.name(), createStrategy(playerRequest.ai()));
     }
     
-    private PlayerStrategy createStrategy(PlayerStrategyRequest request) {
+    private PlayerStrategy createStrategy(PlayerStrategyRequest request) throws NullPointerException, IllegalArgumentException {
         Objects.requireNonNull(request);
         if(request.equals(PlayerStrategyRequest.AGGRESSIVE)) {
             return new AggressiveStrategyImpl();
