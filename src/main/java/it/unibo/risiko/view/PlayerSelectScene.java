@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import it.unibo.risiko.model.player.PlayerRequest;
-import it.unibo.risiko.model.player.PlayerRequest.PlayerAI;
+import it.unibo.risiko.model.player.PlayerRequest.PlayerStrategy;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -59,6 +59,7 @@ public class PlayerSelectScene extends Scene {
     private final Consumer<List<PlayerRequest>> onDone;
 
     /**
+     * This constructor will use predetermined width and heigth for the scene
      * @param onDone used to get the resulting player roster
      */
     public PlayerSelectScene(final Consumer<List<PlayerRequest>> onDone) {
@@ -66,6 +67,7 @@ public class PlayerSelectScene extends Scene {
     }
 
     /**
+     * This constuctor will create the scene following the specified sizes
      * @param onDone used to get the resulting player roster
      * @param width  of the scene
      * @param height of the scene
@@ -134,16 +136,16 @@ public class PlayerSelectScene extends Scene {
     }
 
     private void initializeButtons() {
-        this.addHuman.setOnAction(e -> addPlayer(PlayerAI.HUMAN));
+        this.addHuman.setOnAction(e -> addPlayer(PlayerStrategy.HUMAN));
         this.buttSettings(addHuman);
 
-        this.addAggressive.setOnAction(e -> addPlayer(PlayerAI.AGGRESSIVE));
+        this.addAggressive.setOnAction(e -> addPlayer(PlayerStrategy.AGGRESSIVE));
         this.buttSettings(addAggressive);
 
-        this.addRandom.setOnAction(e -> addPlayer(PlayerAI.RANDOM));
+        this.addRandom.setOnAction(e -> addPlayer(PlayerStrategy.RANDOM));
         this.buttSettings(addRandom);
 
-        this.addDefensive.setOnAction(e -> addPlayer(PlayerAI.DEFENSIVE));
+        this.addDefensive.setOnAction(e -> addPlayer(PlayerStrategy.DEFENSIVE));
         buttSettings(this.addDefensive);
 
         done.setOnAction(e -> finish());
@@ -167,7 +169,7 @@ public class PlayerSelectScene extends Scene {
                 .bind(addHuman.heightProperty().multiply(widthMult).map(size -> Font.font(size.doubleValue())));
     }
 
-    private void addPlayer(final PlayerAI playerType) {
+    private void addPlayer(final PlayerStrategy playerType) {
         if (this.counter >= MAX_PLAYERS) {
             return;
         }

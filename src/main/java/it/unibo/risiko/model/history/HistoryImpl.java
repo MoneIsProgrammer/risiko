@@ -12,6 +12,29 @@ public class HistoryImpl implements History {
 
     private final List<Event> history = new LinkedList<>();
 
+    /**
+     * This constructor returns an empty hystory
+     */
+    public HistoryImpl() {
+
+    }
+
+    /**
+     * This constructor returns an history already containing the events in the list
+     * @param history the events 
+     */
+    public HistoryImpl(List<Event> history) {
+        this.restoreHistory(history);
+    }
+
+    /**
+     * This constructor return an history containig the passed events
+     * @param events variable number events to be added
+     */
+    public HistoryImpl(Event... events) {
+        this.restoreHistory(List.of(events));
+    }
+
     @Override
     public final List<Event> getAllEvents() {
         return List.copyOf(this.history);

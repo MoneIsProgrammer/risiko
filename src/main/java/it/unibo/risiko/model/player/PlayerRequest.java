@@ -11,18 +11,33 @@ import javafx.scene.paint.Color;
  * @param ai type of ai player will use
  * @param color color of the player, unique is preferred
  */
-public record PlayerRequest(String name, PlayerAI ai, Color color) {
+public record PlayerRequest(String name, PlayerStrategy ai, Color color) {
     /**
      * Type of ai this player will use.
      */
-    public static final class PlayerAI {
-        public static final PlayerAI AGGRESSIVE = new PlayerAI("aggressive");
-        public static final PlayerAI DEFENSIVE = new PlayerAI("defensive");
-        public static final PlayerAI RANDOM = new PlayerAI("random");
-        public static final PlayerAI HUMAN = new PlayerAI("human");
+    public static final class PlayerStrategy {
+        /**
+         * costant to be used to define the type of strategy the player will use
+         */
+        public static final PlayerStrategy AGGRESSIVE = new PlayerStrategy("aggressive");
+        
+        /**
+         * costant to be used to define the type of strategy the player will use
+         */
+        public static final PlayerStrategy DEFENSIVE = new PlayerStrategy("defensive");
+        
+        /**
+         * costant to be used to define the type of strategy the player will use
+         */
+        public static final PlayerStrategy RANDOM = new PlayerStrategy("random");
+        
+        /**
+         * costant to be used to define the type of strategy the player will use
+         */
+        public static final PlayerStrategy HUMAN = new PlayerStrategy("human");
         private final String ai;
 
-        private PlayerAI(final String ai) {
+        private PlayerStrategy(final String ai) {
             this.ai = ai;
         }
 
@@ -33,8 +48,8 @@ public record PlayerRequest(String name, PlayerAI ai, Color color) {
 
         @Override
         public boolean equals(final Object object) {
-            if (object instanceof PlayerAI) {
-                final PlayerAI p = (PlayerAI) object;
+            if (object instanceof PlayerStrategy) {
+                final PlayerStrategy p = (PlayerStrategy) object;
                 return this.ai.equals(p.ai);
             }
             return false;
