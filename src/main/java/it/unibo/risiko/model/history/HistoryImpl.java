@@ -4,13 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.unibo.risiko.model.event.Event;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 /**
  * Implementation of History.
  */
 public class HistoryImpl implements History {
 
-    private final List<Event> history = new LinkedList<>();
+    private final ObservableList<Event> history = FXCollections.observableArrayList();
 
     /**
      * This constructor returns an empty hystory
@@ -59,5 +62,9 @@ public class HistoryImpl implements History {
     public final void restoreHistory(final List<Event> newHistory) {
         this.history.clear();
         this.history.addAll(newHistory);
+    }
+
+    public final void addListener(final ListChangeListener<Event> listener) {
+        this.history.addListener(listener);
     }
 }

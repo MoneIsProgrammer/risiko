@@ -3,6 +3,7 @@ package it.unibo.risiko.model.history;
 import java.util.List;
 
 import it.unibo.risiko.model.event.Event;
+import javafx.collections.ListChangeListener;
 
 /**
  * Models the history of the game containing various {@link Event}s.
@@ -44,4 +45,6 @@ public interface History {
      * @param history Overwrites current History with the passed list of Events
      */
     void restoreHistory(List<Event> history);
+
+    void addListener(ListChangeListener<Event> listener);
 }
