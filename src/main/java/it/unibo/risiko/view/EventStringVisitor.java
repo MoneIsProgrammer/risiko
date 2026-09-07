@@ -15,6 +15,13 @@ import it.unibo.risiko.model.event.ReinforceEvent;
  */
 public final class EventStringVisitor implements EventVisitor<List<String>> {
 
+    /**
+     * Just creates the object, to be used must be passed to events
+     */
+    public EventStringVisitor() {
+        //supposed to do nothing
+    }
+
     @Override
     public List<String> visit(final AttackEvent event) {
         final String out = event.attacker() + " attacks "

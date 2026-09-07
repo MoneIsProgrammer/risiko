@@ -8,11 +8,29 @@ import java.util.List;
  * Enum containing the colors avabile to the players.
  */
 public enum RisikoColors {
+    /**
+     *Yellow
+     */
     YELLOW,
+    /**
+     *Red
+     */
     RED,
+    /**
+     *Green
+     */
     GREEN,
+    /**
+     *Blue
+     */
     BLUE,
+    /**
+     *Pink
+     */
     PINK,
+    /**
+     *Black
+     */
     BLACK;
 
     /**
