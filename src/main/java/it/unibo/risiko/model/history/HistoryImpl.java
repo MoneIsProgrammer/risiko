@@ -1,6 +1,5 @@
 package it.unibo.risiko.model.history;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import it.unibo.risiko.model.event.Event;
@@ -16,25 +15,27 @@ public class HistoryImpl implements History {
     private final ObservableList<Event> history = FXCollections.observableArrayList();
 
     /**
-     * This constructor returns an empty hystory
+     * This constructor returns an empty hystory.
      */
     public HistoryImpl() {
-
+        //this is for removing a javadoc error
     }
 
     /**
-     * This constructor returns an history already containing the events in the list
+     * This constructor returns an history already containing the events in the list.
+     * 
      * @param history the events 
      */
-    public HistoryImpl(List<Event> history) {
+    public HistoryImpl(final List<Event> history) {
         this.restoreHistory(history);
     }
 
     /**
-     * This constructor return an history containig the passed events
+     * This constructor return an history containig the passed events.
+     * 
      * @param events variable number events to be added
      */
-    public HistoryImpl(Event... events) {
+    public HistoryImpl(final Event... events) {
         this.restoreHistory(List.of(events));
     }
 
@@ -64,6 +65,7 @@ public class HistoryImpl implements History {
         this.history.addAll(newHistory);
     }
 
+    @Override
     public final void addListener(final ListChangeListener<Event> listener) {
         this.history.addListener(listener);
     }

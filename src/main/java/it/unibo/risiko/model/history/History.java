@@ -46,5 +46,10 @@ public interface History {
      */
     void restoreHistory(List<Event> history);
 
+    /**
+     * Used to add listeners that want to be notified when this class changes.
+     * 
+     * @param listener listener to be added that will be notified on addition to the history
+     */
     void addListener(ListChangeListener<Event> listener);
 }

@@ -60,7 +60,8 @@ public class PlayerSelectScene extends Scene {
     private final Consumer<List<PlayerRequest>> onDone;
 
     /**
-     * This constructor will use predetermined width and heigth for the scene
+     * This constructor will use predetermined width and heigth for the scene.
+     * 
      * @param onDone used to get the resulting player roster
      */
     public PlayerSelectScene(final Consumer<List<PlayerRequest>> onDone) {
@@ -68,7 +69,8 @@ public class PlayerSelectScene extends Scene {
     }
 
     /**
-     * This constuctor will create the scene following the specified sizes
+     * This constuctor will create the scene following the specified sizes.
+     * 
      * @param onDone used to get the resulting player roster
      * @param width  of the scene
      * @param height of the scene

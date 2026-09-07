@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Enum containing the colors avabile to the players
+ * Enum containing the colors avabile to the players.
  */
 public enum RisikoColors {
     YELLOW,
@@ -16,11 +16,12 @@ public enum RisikoColors {
     BLACK;
 
     /**
-     * Used to get the colors in a different ordered list
-     * @return a list of RisikoColor values
+     * Used to get the colors in a different ordered list.
+     * 
+     * @return a list containing all RisikoColor values shuffled
      */
     public static List<RisikoColors> shuffledValues() {
-        List<RisikoColors> out = new ArrayList<>(List.of(values()));
+        final List<RisikoColors> out = new ArrayList<>(List.of(values()));
         Collections.shuffle(out);
         return out;
     }

@@ -5,8 +5,11 @@ package it.unibo.risiko.model.player;
  */
 @SuppressWarnings("PMD.ImplicitFunctionalInterface")
 public interface PlayerFactory {
-    /**Creates a player following the passed specifications
+    /**
+     * Creates a player following the passed specifications.
+     * 
      * @param playerRequest necessary informations to build the player
+     * 
      * @return the player built following specifications
      */
     Player generatePlayer(PlayerRequest playerRequest);

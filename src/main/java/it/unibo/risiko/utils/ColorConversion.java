@@ -6,8 +6,11 @@ import java.util.Map;
 import it.unibo.risiko.model.player.RisikoColors;
 import javafx.scene.paint.Color;
 
+/**
+ * ColorConversion static class with utilities to manage player colors between model and view.
+ */
 public final class ColorConversion {
-    final static private Map<Color, RisikoColors> map = Map.of(
+    private static final Map<Color, RisikoColors> MAP = Map.of(
         Color.YELLOW, RisikoColors.YELLOW,
         Color.RED, RisikoColors.RED,
         Color.GREEN, RisikoColors.GREEN,
@@ -19,22 +22,41 @@ public final class ColorConversion {
 
     }
 
+    /**
+     * Used do get the javaFX equivalent for all player colors.
+     * 
+     * @return a set of the colors avabile
+     */
     public static List<Color> getAvabileJavaFXColors() {
-        return List.copyOf(map.keySet());
+        return List.copyOf(MAP.keySet());
     }
 
-    public static RisikoColors toRisikoColor (Color color) throws IllegalArgumentException {
+    /**
+     * Converts JavaFX Color to the model equivalent.
+     * 
+     * @param color JavaFX color to be converted
+     * 
+     * @return the correspondent color for the model
+     */
+    public static RisikoColors toRisikoColor(final Color color) {
         if (!correctColor(color)) {
             throw new IllegalArgumentException("Color is not one of the permitted values");
         }
-        return map.get(color);
+        return MAP.get(color);
     }
 
-    public static Color toJavaFxColor(RisikoColors color) {
-        return map.entrySet().stream().filter(a -> a.getValue().equals(color)).findFirst().get().getKey();
+    /**
+     * Converts model's color to a javaFX equivalent.
+     * 
+     * @param color the color the model utilizes to be converted
+     * 
+     * @return the corresponted JavaFX Color for the view
+     */
+    public static Color toJavaFxColor(final RisikoColors color) {
+        return MAP.entrySet().stream().filter(a -> a.getValue() == color).findFirst().get().getKey();
     }
 
-    private static boolean correctColor(Color color) {
-        return map.containsKey(color);
+    private static boolean correctColor(final Color color) {
+        return MAP.containsKey(color);
     }
 }
