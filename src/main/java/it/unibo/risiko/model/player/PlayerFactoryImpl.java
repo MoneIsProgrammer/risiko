@@ -4,9 +4,9 @@ import java.util.Objects;
 
 import it.unibo.risiko.model.player.PlayerRequest.PlayerStrategyRequest;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
-import it.unibo.risiko.model.player.strategy.ai.AggressiveStrategyImpl;
-import it.unibo.risiko.model.player.strategy.ai.DefensiveStrategyImpl;
-import it.unibo.risiko.model.player.strategy.ai.RandomStrategyImpl;
+import it.unibo.risiko.model.player.strategy.ai.AggressiveStrategy;
+import it.unibo.risiko.model.player.strategy.ai.DefensiveStrategy;
+import it.unibo.risiko.model.player.strategy.ai.RandomStrategy;
 
 public class PlayerFactoryImpl implements PlayerFactory {
 
@@ -19,13 +19,13 @@ public class PlayerFactoryImpl implements PlayerFactory {
     private PlayerStrategy createStrategy(PlayerStrategyRequest request) throws NullPointerException, IllegalArgumentException {
         Objects.requireNonNull(request);
         if(request.equals(PlayerStrategyRequest.AGGRESSIVE)) {
-            return new AggressiveStrategyImpl();
+            return new AggressiveStrategy();
         }
         if(request.equals(PlayerStrategyRequest.DEFENSIVE)) {
-            return new DefensiveStrategyImpl();
+            return new DefensiveStrategy();
         }
         if(request.equals(PlayerStrategyRequest.RANDOM)) {
-            return new RandomStrategyImpl();
+            return new RandomStrategy();
         }
         if(request.equals(PlayerStrategyRequest.HUMAN)) {
             return new HumanStrategyImpl();
