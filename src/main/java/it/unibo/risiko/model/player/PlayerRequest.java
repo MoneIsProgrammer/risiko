@@ -15,22 +15,22 @@ public record PlayerRequest(String name, PlayerStrategyRequest ai, RisikoColors 
      */
     public static final class PlayerStrategyRequest {
         /**
-         * costant to be used to define the type of strategy the player will use
+         * Costant to be used to define the type of strategy the player will use.
          */
         public static final PlayerStrategyRequest AGGRESSIVE = new PlayerStrategyRequest("aggressive");
         
         /**
-         * costant to be used to define the type of strategy the player will use
+         * Costant to be used to define the type of strategy the player will use.
          */
         public static final PlayerStrategyRequest DEFENSIVE = new PlayerStrategyRequest("defensive");
         
         /**
-         * costant to be used to define the type of strategy the player will use
+         * Costant to be used to define the type of strategy the player will use.
          */
         public static final PlayerStrategyRequest RANDOM = new PlayerStrategyRequest("random");
         
         /**
-         * costant to be used to define the type of strategy the player will use
+         * Costant to be used to define the type of strategy the player will use.
          */
         public static final PlayerStrategyRequest HUMAN = new PlayerStrategyRequest("human");
         private final String ai;

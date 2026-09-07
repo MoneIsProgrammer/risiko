@@ -8,13 +8,23 @@ import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
-public class PlayerImpl implements Player{
+/**
+ * PlayerImpl implementation of Player.
+ */
+public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerStrategy strategy;
     private final RisikoColors color;
     //private final Set<Territory> = new HashSet<>();
 
-    protected PlayerImpl(RisikoColors color, String name, PlayerStrategy strategy) {
+    /**
+     * Can only be created from {@link PlayerFactory} following a request.
+     * 
+     * @param color of the player
+     * @param name  name of the player
+     * @param strategy  strategy that this player will use during its turns
+     */
+    protected PlayerImpl(final RisikoColors color, final String name, final PlayerStrategy strategy) {
         this.name = name;
         this.strategy = strategy;
         this.color = color;
@@ -44,5 +54,5 @@ public class PlayerImpl implements Player{
     public Optional<ReinforceEvent> reinforce() {
         return this.strategy.getReinforce();
     }
-    
+
 }
