@@ -1,5 +1,6 @@
 package it.unibo.risiko.model.deck;
 
+/* I have removed territoryValue from the card for now */
 public class Card {
 
     // Private Fields, each card has a territory and a troop
@@ -9,9 +10,9 @@ public class Card {
     private boolean isFaceUp;
 
     // Constructor
-    public Card(DeckTerritories territoryName, DeckTerritories territoryValue, DeckTroops troop) {
+    public Card(DeckTerritories territoryName, DeckTroops troop) {
         this.territoryName = territoryName;
-        this.territoryValue = territoryValue;
+        //this.territoryValue = territoryValue;
         this.troop = troop;
         isFaceUp = true;
     }
@@ -20,11 +21,11 @@ public class Card {
     public String getTerritoryName() {
         return territoryName.getTerritoryName();
     }
-
+/*
     public int getTerritoryValue() {
         return  territoryValue.getTerritoryValue();
     }
-
+*/
     public String getTroop() {
         return troop.getTroopName();
     }

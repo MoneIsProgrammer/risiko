@@ -2,6 +2,11 @@ package it.unibo.risiko.model.deck;
 
 import java.util.ArrayList;
 
+/**
+ * This is a super class. It forms the basis of all handds including deck
+ * Attributes: cards
+ * Methods: clear(), add(card), remove(card), give(card, otherHand), showHand()
+ */
 public class Hand {
     private ArrayList<Card> cards;
 
