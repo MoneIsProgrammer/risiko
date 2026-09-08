@@ -13,28 +13,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class PlayerSelectStage extends Application{
+public class PlayerSelectStage extends Application{ //test class to lauch scenes
 
     @Override
     public void start(Stage stage) throws Exception {
         List<PlayerRequest> list = new ArrayList<>();
         stage.setTitle("MyShapes with JavaFX");
-        stage.setScene(this.makScene(e -> stage.setScene(new PlayerSelectScene(a -> {
-            list.addAll(a);
-            for (PlayerRequest playerRequest : list) {
-                System.out.print("Outer" + playerRequest.name());
-            }
-        }))));
+        stage.setScene(new MainMenuScene(e -> stage.setScene(makScene()), e -> System.out.print("load"), false));
         stage.show();
     }
 
-    public Scene makScene(EventHandler<ActionEvent> change) {
-        Button button = new Button("cambio");
-        button.setOnAction(change);
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(button);
-        Scene scene = new Scene(stackPane, 350, 230, Color.LIGHTYELLOW);
-        return scene;
+    public Scene makScene() {
+        return new PlayerSelectScene(e -> System.out.print(e.toString()));
     }
 
     public static final class Main {
