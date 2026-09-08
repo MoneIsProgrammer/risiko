@@ -1,10 +1,12 @@
 package it.unibo.risiko.model.player;
 
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 
 /**
@@ -12,8 +14,9 @@ import it.unibo.risiko.model.player.strategy.HumanStrategy;
  */
 public class HumanStrategyImpl implements HumanStrategy{
 
+
     @Override
-    public Optional<AttackEvent> getAttack() {
+    public Optional<AttackEvent> getAttack(Set<Territory> ownedTerritories) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAttack'");
     }
@@ -31,13 +34,13 @@ public class HumanStrategyImpl implements HumanStrategy{
     }
 
     @Override
-    public void attackSource(String territory) {
+    public void attackSource(Territory territory) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attackSource'");
     }
 
     @Override
-    public void attackDestination(String territory) {
+    public void attackDestination(Territory territory) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attackDestination'");
     }
@@ -55,13 +58,13 @@ public class HumanStrategyImpl implements HumanStrategy{
     }
 
     @Override
-    public void moveSource(String territory) {
+    public void moveSource(Territory territory) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'moveSource'");
     }
 
     @Override
-    public void moveDestination(String territory) {
+    public void moveDestination(Territory territory) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'moveDestination'");
     }

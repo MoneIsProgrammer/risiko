@@ -1,10 +1,13 @@
 package it.unibo.risiko.model.player;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
@@ -15,7 +18,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerStrategy strategy;
     private final RisikoColors color;
-    //private final Set<Territory> = new HashSet<>();
+    private final Set<Territory> ownedTerritories = new HashSet<>();
 
     /**
      * Can only be created from {@link PlayerFactory} following a request.
@@ -42,7 +45,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public Optional<AttackEvent> attack() {
-        return this.strategy.getAttack();
+        return this.strategy.getAttack(this.ownedTerritories);
     }
 
     @Override

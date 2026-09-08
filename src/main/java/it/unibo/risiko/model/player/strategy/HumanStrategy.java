@@ -1,5 +1,7 @@
 package it.unibo.risiko.model.player.strategy;
 
+import it.unibo.risiko.model.map.Territory;
+
 /**
  * Strategy designed to be used by human player, models various methods to build each event.
  */
@@ -9,14 +11,14 @@ public interface HumanStrategy extends PlayerStrategy {
      * 
      * @param territory where the attack came from
      */
-    void attackSource(String territory);
+    void attackSource(Territory territory);
 
     /**
      * sets the destination of an attack.
      * 
      * @param territory what territory the attack targets
      */
-    void attackDestination(String territory);
+    void attackDestination(Territory territory);
 
     /**
      * sets the number of troops to be used in the attack.
@@ -37,14 +39,14 @@ public interface HumanStrategy extends PlayerStrategy {
      * 
      * @param territory the source
      */
-    void moveSource(String territory);
+    void moveSource(Territory territory);
 
     /**
      * sets the destination of the movement.
      * 
      * @param territory the destination
      */
-    void moveDestination(String territory);
+    void moveDestination(Territory territory);
 
     /**
      * sets how many troops are to be moved from source to dest.
