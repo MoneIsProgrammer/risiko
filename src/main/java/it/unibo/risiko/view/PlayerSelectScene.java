@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
@@ -94,7 +95,7 @@ public class PlayerSelectScene extends Scene {
 
     private void initializeLayout() {
         final var choiceBoxSpacing = 25;
-        final var topPercentageHeight = 40;
+        final var topPercentageHeight = 60;
         final double insetsSpacing = 20;
         final var playerChoiceBox = new HBox(addHuman, addAggressive, addDefensive, addRandom);
         playerChoiceBox.setSpacing(choiceBoxSpacing);
@@ -164,12 +165,12 @@ public class PlayerSelectScene extends Scene {
     }
 
     private void buttSettings(final Button butt) {
-        final double widthMult = 0.2;
-        butt.prefWidthProperty().bind(bottom.widthProperty().multiply(widthMult));
-        final double heightMult = 0.4;
-        butt.prefHeightProperty().bind(bottom.heightProperty().multiply(heightMult));
+        final double widthMult = 0.04;
+        butt.setPrefSize(Control.USE_COMPUTED_SIZE, Control.USE_COMPUTED_SIZE);
         butt.fontProperty()
-                .bind(addHuman.heightProperty().multiply(widthMult).map(size -> Font.font(size.doubleValue())));
+                .bind(bottom.widthProperty()
+                .multiply(widthMult)
+                .map(size -> Font.font(size.doubleValue())));
     }
 
     private void addPlayer(final PlayerStrategy playerType) {
