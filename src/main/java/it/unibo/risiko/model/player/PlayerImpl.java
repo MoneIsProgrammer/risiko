@@ -7,6 +7,7 @@ import java.util.Set;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
@@ -44,8 +45,8 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Optional<AttackEvent> attack() {
-        return this.strategy.getAttack(this.ownedTerritories);
+    public Optional<AttackEvent> attack(GameMap map) {
+        return this.strategy.getAttack(map, null);
     }
 
     @Override

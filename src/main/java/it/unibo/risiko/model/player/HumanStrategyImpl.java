@@ -1,11 +1,11 @@
 package it.unibo.risiko.model.player;
 
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 
@@ -16,7 +16,7 @@ public class HumanStrategyImpl implements HumanStrategy{
 
 
     @Override
-    public Optional<AttackEvent> getAttack(Set<Territory> ownedTerritories) {
+    public Optional<AttackEvent> getAttack(GameMap map, String owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAttack'");
     }

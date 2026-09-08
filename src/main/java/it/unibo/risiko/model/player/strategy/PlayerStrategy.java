@@ -1,12 +1,11 @@
 package it.unibo.risiko.model.player.strategy;
 
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
-import it.unibo.risiko.model.map.Territory;
+import it.unibo.risiko.model.map.GameMap;
 
 /**
  * General strategy implemetation giving the methods to get the result of an action.
@@ -15,11 +14,12 @@ public interface PlayerStrategy {
 
     /**
      * Used to generate an attack event, if unable generates nothing.
-     * @param ownedTerritories 
+     * @param map 
+     * @param owner TODO
      * 
      * @return an {@link Optional} containing the event, if event can't be generated returns {@link Optional#empty()}
      */
-    Optional<AttackEvent> getAttack(Set<Territory> ownedTerritories); //must pass gamestate so ai can use it, return optional to check 
+    Optional<AttackEvent> getAttack(GameMap map, String owner); //must pass gamestate so ai can use it, return optional to check 
     // if an event is passed or not either if move is invalid or the bot is done
 
     /**

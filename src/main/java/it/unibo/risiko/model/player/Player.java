@@ -5,6 +5,7 @@ import java.util.Optional;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -33,7 +34,7 @@ public interface Player {
      * 
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<AttackEvent> attack();
+    Optional<AttackEvent> attack(GameMap map);
 
     /**
      * Used to get the transfer of troops from a territory to another.
