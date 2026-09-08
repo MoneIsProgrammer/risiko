@@ -22,4 +22,9 @@ public class Deck extends Hand {
             }
         }
     }
+    public void shuffle() {
+        /* TODO */
+    }
+     /* Try adding an option to cut the deck, split the deck (somwehat randomly)
+    Take the top half and swap it with the bottom half */
 }
