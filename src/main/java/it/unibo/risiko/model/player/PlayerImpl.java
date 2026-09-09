@@ -44,17 +44,17 @@ public final class PlayerImpl implements Player {
 
     @Override
     public Optional<AttackEvent> attack(GameMap map) {
-        return this.strategy.getAttack(map, this);
+        return this.strategy.getAttack(this);
     }
 
     @Override
     public Optional<MoveEvent> move(GameMap map) {
-        return this.strategy.getMove(null, null);
+        return this.strategy.getMove(null);
     }
 
     @Override
     public Optional<ReinforceEvent> reinforce(GameMap map) {
-        return this.strategy.getReinforce(null, null);
+        return this.strategy.getReinforce(null);
     }
 
     @Override
