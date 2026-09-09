@@ -52,7 +52,7 @@ public class AggressiveStrategy implements PlayerStrategy {
     @Override
     public Optional<MoveEvent> getMove(Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
         var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
+        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);//TODO fix movement only in adj territories
         var source = playerTerritories.stream()
             .filter(a -> a.getArmies() > 2) 
             .filter(a -> !borders.contains(a))

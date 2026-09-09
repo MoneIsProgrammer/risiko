@@ -45,7 +45,7 @@ public class DefensiveStrategy implements PlayerStrategy {
         var weakestVictim = validAttacks.get(strongestAttacker).stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies())).get();
         return Optional.of(new AttackEvent(owner,
             this.roster.getPlayer(weakestVictim.getOwnerId().get()),
-            strongestAttacker.getArmies() > MAX_ATK_STR ? MAX_ATK_STR : strongestAttacker.getArmies(), // this will always result in max armies, useful if the attack policy changes
+            strongestAttacker.getArmies() > MAX_ATK_STR ? MAX_ATK_STR : strongestAttacker.getArmies() - 1, // this will always result in max armies, useful if the attack policy changes
             weakestVictim.getArmies() > MAX_ATK_STR ? MAX_ATK_STR : weakestVictim.getArmies(), // to simplify defenders always defend with all their armies (MAX _3 min 1)
             strongestAttacker,
             weakestVictim
@@ -65,7 +65,7 @@ public class DefensiveStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<MoveEvent> getMove(Player owner) {
+    public Optional<MoveEvent> getMove(Player owner) {//TODO fix movement only in adj territories
         var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var border = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
         var weakestBorder = border.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
