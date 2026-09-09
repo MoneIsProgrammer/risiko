@@ -1,6 +1,8 @@
 package it.unibo.risiko.model.player.strategy.ai;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,14 +20,17 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 public class AggressiveStrategy implements PlayerStrategy {
 
     @Override
-    public Optional<AttackEvent> getAttack(GameMap map, Player owner) {
+    public Optional<AttackEvent> getAttack(GameMap map, Player owner) { // if it can attack it will
         var playerTerritories = map.getTerritoriesOf(owner.getId());
         var borders = getBorderTerritories(map, playerTerritories);
         var source = borders.stream().filter(a -> a.getArmies() > 1).max((a, b) -> Integer.compare(a.getArmies(), b.getArmies()));
         if (source.isEmpty()) {
             return Optional.empty();
         }
-        var destination = source.get().getAdjacentIds().stream().map(a -> map.getTerritory(a)).filter(a -> !playerTerritories.contains(a)).min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+        var destination = source.get().getAdjacentIds().stream() // ok because souce is a border
+            .map(a -> map.getTerritory(a))
+            .filter(a -> !playerTerritories.contains(a))
+            .min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
         if (destination.isEmpty()) {
             return  Optional.empty();
         }
@@ -38,22 +43,46 @@ public class AggressiveStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<MoveEvent> getMove(GameMap map, Player owner) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMove'");
+    public Optional<MoveEvent> getMove(GameMap map, Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
+        var playerTerritories = map.getTerritoriesOf(owner.getId());
+        var borders = getBorderTerritories(map, playerTerritories);
+        var source = playerTerritories.stream()
+            .filter(a -> a.getArmies() > 2) 
+            .filter(a -> !borders.contains(a))
+            .max((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+        var destination = borders.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+        if (source.isEmpty() || destination.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(new MoveEvent(owner.getName(),
+        source.get().getName(),
+        destination.get().getName(),
+        source.get().getArmies() - 1));
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getReinforce'");
+    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) { // TODO add card bonuses when ready
+        Map<Territory,Integer> reinforceMap = new HashMap<>();
+        var playerTerritories = map.getTerritoriesOf(owner.getId());
+        var reinforcements = Math.floor(playerTerritories.size() / 3); // arrotondamento per difetto
+        reinforcements += map.getContinentBonus(owner.getId());
+        var borders = getBorderTerritories(map, playerTerritories);
+        for (int i = 0; i < reinforcements; i++) {
+            var min = playerTerritories.stream().filter(a -> a.getArmies() < 2).findAny();
+            if (min.isEmpty()) {
+                min = borders.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+            }
+            reinforceMap.merge(min.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
+        }
+        return Optional.of(new ReinforceEvent(owner.getName(), reinforceMap));
+
     }
 
-    private Set<Territory> getBorderTerritories(GameMap map, Set<Territory> playerTerritories) {
+    private Set<Territory> getBorderTerritories(GameMap map, Set<Territory> playerTerritories) { // creates a set containing player owned territories that border enemies
         Set<Territory> borderTerritories = new HashSet<>();
         for (Territory territory : playerTerritories) {
             for (String adj  : territory.getAdjacentIds()) {
-                if (playerTerritories.contains(map.getTerritory(adj))) {
+                if (!playerTerritories.contains(map.getTerritory(adj))) {
                     borderTerritories.add(territory);
                     break;
                 }
