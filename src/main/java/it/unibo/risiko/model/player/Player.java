@@ -32,23 +32,36 @@ public interface Player extends  Identifiable{
 
     /**
      * Used to get the next attack that the player wants to take.
-     * 
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
     Optional<AttackEvent> attack(GameMap map);
 
     /**
      * Used to get the transfer of troops from a territory to another.
-     * 
+     * @param map needs it to make correct decisions
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<MoveEvent> move();
+    Optional<MoveEvent> move(GameMap map);
 
     /**
      * Used to get the reinforcement to various territories.
-     * 
+     * @param map TODO
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<ReinforceEvent> reinforce();
+    Optional<ReinforceEvent> reinforce(GameMap map);
+
+    /**
+     * Getter for the player name
+     * 
+     * @return the name of the player
+     */
+    String getName();
+
+    /**
+     * Getter for the PlayerColor
+     * 
+     * @return the color of the player
+     */
+    RisikoColors getColor();
 
 }

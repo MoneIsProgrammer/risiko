@@ -9,6 +9,7 @@ import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.map.Territory;
+import it.unibo.risiko.model.player.Player;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -17,8 +18,8 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 public class AggressiveStrategy implements PlayerStrategy {
 
     @Override
-    public Optional<AttackEvent> getAttack(GameMap map, String owner) {
-        var playerTerritories = map.getTerritoriesOf(owner);
+    public Optional<AttackEvent> getAttack(GameMap map, Player owner) {
+        var playerTerritories = map.getTerritoriesOf(owner.getId());
         var borders = getBorderTerritories(map, playerTerritories);
         var source = borders.stream().filter(a -> a.getArmies() > 1).max((a, b) -> Integer.compare(a.getArmies(), b.getArmies()));
         if (source.isEmpty()) {
@@ -28,7 +29,7 @@ public class AggressiveStrategy implements PlayerStrategy {
         if (destination.isEmpty()) {
             return  Optional.empty();
         }
-        return Optional.of(new AttackEvent(owner, 
+        return Optional.of(new AttackEvent(owner.getName(), 
             destination.get().getOwnerId().get(), 
             attackerStrenght(source.get()), 
             defenderStrenght(destination.get()), 
@@ -37,13 +38,13 @@ public class AggressiveStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<MoveEvent> getMove() {
+    public Optional<MoveEvent> getMove(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMove'");
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce() {
+    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReinforce'");
     }

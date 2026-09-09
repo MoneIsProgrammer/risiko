@@ -6,6 +6,7 @@ import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
+import it.unibo.risiko.model.player.Player;
 
 /**
  * General strategy implemetation giving the methods to get the result of an action.
@@ -19,20 +20,24 @@ public interface PlayerStrategy {
      * 
      * @return an {@link Optional} containing the event, if event can't be generated returns {@link Optional#empty()}
      */
-    Optional<AttackEvent> getAttack(GameMap map, String owner); //must pass gamestate so ai can use it, return optional to check 
+    Optional<AttackEvent> getAttack(GameMap map, Player owner); //must pass gamestate so ai can use it, return optional to check 
     // if an event is passed or not either if move is invalid or the bot is done
 
     /**
      * Used to generate a move event, if unable generates nothing.
+     * @param map TODO
+     * @param owner TODO
      * 
      * @return an {@link Optional} containing the event, if event can't be generated returns {@link Optional#empty()}
      */
-    Optional<MoveEvent> getMove();
+    Optional<MoveEvent> getMove(GameMap map, Player owner);
 
     /**
      * Used to generate a reinforcement event, if unable generates nothing.
+     * @param map TODO
+     * @param owner TODO
      * 
      * @return an {@link Optional} containing the event, if event can't be generated returns {@link Optional#empty()}
      */
-    Optional<ReinforceEvent> getReinforce();
+    Optional<ReinforceEvent> getReinforce(GameMap map, Player owner);
 }

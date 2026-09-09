@@ -16,19 +16,19 @@ public class HumanStrategyImpl implements HumanStrategy{
 
 
     @Override
-    public Optional<AttackEvent> getAttack(GameMap map, String owner) {
+    public Optional<AttackEvent> getAttack(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAttack'");
     }
 
     @Override
-    public Optional<MoveEvent> getMove() {
+    public Optional<MoveEvent> getMove(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMove'");
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce() {
+    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReinforce'");
     }

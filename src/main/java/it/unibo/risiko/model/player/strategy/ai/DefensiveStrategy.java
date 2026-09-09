@@ -6,6 +6,7 @@ import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
+import it.unibo.risiko.model.player.Player;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -15,19 +16,19 @@ public class DefensiveStrategy implements PlayerStrategy {
 
 
     @Override
-    public Optional<AttackEvent> getAttack(GameMap map, String owner) {
+    public Optional<AttackEvent> getAttack(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAttack'");
     }
 
     @Override
-    public Optional<MoveEvent> getMove() {
+    public Optional<MoveEvent> getMove(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMove'");
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce() {
+    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReinforce'");
     }
