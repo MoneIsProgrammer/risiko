@@ -1,5 +1,6 @@
 package it.unibo.risiko.model.player.strategy.ai;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class AggressiveStrategy implements PlayerStrategy {
 
     private final Roster roster;
     private final GameMap map;
+    private Comparator<Territory> TERRITORY_COMPARATOR = (a, b) -> Integer.compare(a.getArmies(), b.getArmies());
 
     public AggressiveStrategy(Roster roster, GameMap map) {
         this.roster = roster;
@@ -32,14 +34,14 @@ public class AggressiveStrategy implements PlayerStrategy {
     public Optional<AttackEvent> getAttack(Player owner) { // if it can attack it will
         var playerTerritories = map.getTerritoriesOf(owner.getId());
         var borders = getBorderTerritories(playerTerritories);
-        var source = borders.stream().filter(a -> a.getArmies() > 1).max((a, b) -> Integer.compare(a.getArmies(), b.getArmies()));
+        var source = borders.stream().filter(a -> a.getArmies() > 1).max(TERRITORY_COMPARATOR);
         if (source.isEmpty()) {
             return Optional.empty();
         }
         var destination = source.get().getAdjacentIds().stream() // ok because souce is a border
             .map(a -> map.getTerritory(a))
             .filter(a -> !playerTerritories.contains(a))
-            .min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+            .min(TERRITORY_COMPARATOR);
         if (destination.isEmpty()) {
             return  Optional.empty();
         }
@@ -58,8 +60,8 @@ public class AggressiveStrategy implements PlayerStrategy {
         var source = playerTerritories.stream()
             .filter(a -> a.getArmies() > 2) 
             .filter(a -> !borders.contains(a))
-            .max((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
-        var destination = borders.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+            .max(TERRITORY_COMPARATOR);
+        var destination = borders.stream().min(TERRITORY_COMPARATOR);
         if (source.isEmpty() || destination.isEmpty()) {
             return Optional.empty();
         }
@@ -79,7 +81,7 @@ public class AggressiveStrategy implements PlayerStrategy {
         for (int i = 0; i < reinforcements; i++) {
             var min = playerTerritories.stream().filter(a -> a.getArmies() < 2).findAny();
             if (min.isEmpty()) {
-                min = borders.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
+                min = borders.stream().min(TERRITORY_COMPARATOR);
             }
             reinforceMap.merge(min.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
         }
