@@ -1,12 +1,8 @@
 package it.unibo.risiko.model.player.strategy.ai;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
@@ -15,6 +11,7 @@ import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.Player;
 import it.unibo.risiko.model.player.Roster;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
+import it.unibo.risiko.model.player.strategy.StrategyUtils;
 
 /**
  * PlayerStrategy where the ai attacks whoever it can if it has enough troops.
@@ -23,7 +20,6 @@ public class AggressiveStrategy implements PlayerStrategy {
 
     private final Roster roster;
     private final GameMap map;
-    private Comparator<Territory> TERRITORY_COMPARATOR = (a, b) -> Integer.compare(a.getArmies(), b.getArmies());
 
     public AggressiveStrategy(Roster roster, GameMap map) {
         this.roster = roster;
@@ -33,15 +29,15 @@ public class AggressiveStrategy implements PlayerStrategy {
     @Override
     public Optional<AttackEvent> getAttack(Player owner) { // if it can attack it will
         var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = getBorderTerritories(playerTerritories);
-        var source = borders.stream().filter(a -> a.getArmies() > 1).max(TERRITORY_COMPARATOR);
+        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
+        var source = borders.stream().filter(a -> a.getArmies() > 1).max(StrategyUtils.TERRITORY_COMPARATOR);
         if (source.isEmpty()) {
             return Optional.empty();
         }
         var destination = source.get().getAdjacentIds().stream() // ok because souce is a border
             .map(a -> map.getTerritory(a))
             .filter(a -> !playerTerritories.contains(a))
-            .min(TERRITORY_COMPARATOR);
+            .min(StrategyUtils.TERRITORY_COMPARATOR);
         if (destination.isEmpty()) {
             return  Optional.empty();
         }
@@ -56,12 +52,12 @@ public class AggressiveStrategy implements PlayerStrategy {
     @Override
     public Optional<MoveEvent> getMove(Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
         var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = getBorderTerritories(playerTerritories);
+        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
         var source = playerTerritories.stream()
             .filter(a -> a.getArmies() > 2) 
             .filter(a -> !borders.contains(a))
-            .max(TERRITORY_COMPARATOR);
-        var destination = borders.stream().min(TERRITORY_COMPARATOR);
+            .max(StrategyUtils.TERRITORY_COMPARATOR);
+        var destination = borders.stream().min(StrategyUtils.TERRITORY_COMPARATOR);
         if (source.isEmpty() || destination.isEmpty()) {
             return Optional.empty();
         }
@@ -77,29 +73,16 @@ public class AggressiveStrategy implements PlayerStrategy {
         var playerTerritories = map.getTerritoriesOf(owner.getId());
         var reinforcements = Math.floor(playerTerritories.size() / 3); // arrotondamento per difetto
         reinforcements += map.getContinentBonus(owner.getId());
-        var borders = getBorderTerritories(playerTerritories);
+        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
         for (int i = 0; i < reinforcements; i++) {
             var min = playerTerritories.stream().filter(a -> a.getArmies() < 2).findAny();
             if (min.isEmpty()) {
-                min = borders.stream().min(TERRITORY_COMPARATOR);
+                min = borders.stream().min(StrategyUtils.TERRITORY_COMPARATOR);
             }
             reinforceMap.merge(min.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
         }
         return Optional.of(new ReinforceEvent(owner, reinforceMap));
 
-    }
-
-    private Set<Territory> getBorderTerritories(Set<Territory> playerTerritories) { // creates a set containing player owned territories that border enemies
-        Set<Territory> borderTerritories = new HashSet<>();
-        for (Territory territory : playerTerritories) {
-            for (String adj  : territory.getAdjacentIds()) {
-                if (!playerTerritories.contains(this.map.getTerritory(adj))) {
-                    borderTerritories.add(territory);
-                    break;
-                }
-            }
-        }
-        return  borderTerritories;
     }
 
     private int attackerStrenght(Territory territory) {
