@@ -1,7 +1,7 @@
 package it.unibo.risiko.model.event;
 
 /**
- * Composition of {@link AttackEvent} where the attack is resolved.
+ * Composition of {@link AttackEvent} where the attack is resolved, should not be kept as persistent data.
  * 
  * @param attack attack that originated this
  * @param attackerLosses troops lost by attacker

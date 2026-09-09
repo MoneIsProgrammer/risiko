@@ -1,7 +1,10 @@
 package it.unibo.risiko.model.event;
 
+import it.unibo.risiko.model.map.Territory;
+import it.unibo.risiko.model.player.Player;
+
 /**
- * Event that models the movement of troops from a owned territory to another.
+ * Event that models the movement of troops from a owned territory to another, should not be kept as persistent data.
  * 
  * @param player that generated event
  * @param sourceTerritory territory from which troops came from
@@ -9,9 +12,9 @@ package it.unibo.risiko.model.event;
  * @param troopsMoved numbere of troops moved
  */
 public record MoveEvent(
-    String player,
-    String sourceTerritory,
-    String destinationTerritory,
+    Player player,
+    Territory sourceTerritory,
+    Territory destinationTerritory,
     int troopsMoved
 ) implements Event {
 
