@@ -1,6 +1,7 @@
 package it.unibo.risiko.model.deck;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This is a super class. It forms the basis of all hands including deck
@@ -28,6 +29,11 @@ public class Hand {
     /* To remove a card from a hand */
     public void remove(Card card) {
         cards.remove(card);
+    }
+
+    /* To shuffle the cards */
+    public void shuffle() {
+        Collections.shuffle(this.cards);
     }
 
     /* To show hand */

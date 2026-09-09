@@ -26,15 +26,17 @@ public class TerritoriesDeck extends Hand {
                 /* Here "this" refers to each individual deck we create */
                 this.add(card);
         }
-        /* Two jolly cards, they must have all three symbols (cannon, infantry and cavalry)
+    }
+
+    public void addJolly() {
+        /* We'll add two jolly cards to the territories deck, they must have
+         all three symbols (cannon, infantry and cavalry) */
         Card cj1 = new Card();
         Card cj2 = new Card();
         this.add(cj1);
-        this.add(cj2);*/
+        this.add(cj2);
     }
-    public void shuffle() {
-        /* TODO */
-    }
+
      /* Try adding an option to cut the deck, split the deck (somwehat randomly)
     Take the top half and swap it with the bottom half */
 }

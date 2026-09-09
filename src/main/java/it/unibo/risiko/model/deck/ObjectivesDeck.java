@@ -1,6 +1,6 @@
 package it.unibo.risiko.model.deck;
 
-public class ObjectivesDeck {
+public class ObjectivesDeck extends Hand{
     /* We already have a constructor from the Hand class,
     so there's no need to add a constructor here */
     /* In order to populate our deck, we don't need any values, 

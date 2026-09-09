@@ -7,22 +7,24 @@ public class Card {
     private CardTerritories territoryName;
     private CardTroops troop;
     private CardObjectives objectiveDescription;
-    private String cardType;
+    private CardType cardType;
 
-    // Constructor
+    // Constructor for territory cards
     public Card(CardTerritories territoryName, CardTroops troop) {
         this.territoryName = territoryName;
         this.troop = troop;
-        this.cardType = "Territory";
+        this.cardType = CardType.TERRITORY;
     }
 
+    // Constructor for jolly cards
     public Card() {
-        this.cardType = "Jolly";
+        this.cardType = CardType.JOLLY;
     }
 
+    // Constructor for objective cards
     public Card(CardObjectives objectiveDescription) {
         this.objectiveDescription = objectiveDescription;
-        this.cardType = "Objective";
+        this.cardType = CardType.OBJECTIVE;
     }
 
     // Getters
@@ -39,6 +41,6 @@ public class Card {
     }
 
     public String getCardType() {
-        return cardType;
+        return cardType.getCardType();
     }
 }
