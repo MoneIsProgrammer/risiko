@@ -1,15 +1,14 @@
 package it.unibo.risiko.model.deck;
 
-public enum DeckTroops {
+public enum CardTroops {
     CANNONS("Cannons"),
     INFANTRY("Infantry"),
-    CAVALRY("Cavalry"),
-    JOLLY("Jolly");
+    CAVALRY("Cavalry");
 
     private final String troopsName;
 
     // Constructor
-    private DeckTroops(String troopsName) {
+    private CardTroops(String troopsName) {
         this.troopsName = troopsName;
     }
 

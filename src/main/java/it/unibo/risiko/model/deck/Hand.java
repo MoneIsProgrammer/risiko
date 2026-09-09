@@ -3,7 +3,7 @@ package it.unibo.risiko.model.deck;
 import java.util.ArrayList;
 
 /**
- * This is a super class. It forms the basis of all handds including deck
+ * This is a super class. It forms the basis of all hands including deck
  * Attributes: cards
  * Methods: clear(), add(card), remove(card), give(card, otherHand), showHand()
  */
@@ -54,9 +54,35 @@ public class Hand {
         if (!cards.contains(card)) {
             return false;
         } else {
-            // Resolve ASAP card.remove(card);
+            // FIXME: Resolve ASAP card.remove(card);
             otherHand.add(card);
             return true;
         }
+    }
+
+    /** Calculates the total points of a player
+    * The boolean @param hasSetCannons is set to true if the player has 3 cards 
+    * with cannons which adds 4 points to his total.
+    * The boolean @param hasSetInfantry is set to true if the player has 3 cards
+    * with infantry which adds 6 points to his total.
+    * The boolean @param hasSetCavalry is set to true if the player has 3 cards 
+    * with cavalry which adds 8 points to his total.
+    * The boolean @param hasOneEach is set to true if the player has one of 
+    * each (Cannon, Infantry and Cavalry) which adds 10 points to his total.
+    * The boolean @param hasJollyDuo is set to true if the player has one Jolly card 
+    * and 2 cards with same troops (2 cannons or 2 infantry or 2 cavalry) which 
+    * adds 12 points to his total */
+    public int getTotal() {
+        int totalsPts = 0;
+        boolean hasSetCannons = false;
+        boolean hasSetInfantry = false;
+        boolean hasSetCavalry = false;
+        boolean hasOneEach = false;
+        boolean hasJollyDuo = false;
+        
+        for (int i = 0; i < cards.size(); i++) {
+            //totalsPts += cards.get(i).getTroopValue();
+        }
+        return totalsPts;
     }
 }

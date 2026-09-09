@@ -4,39 +4,41 @@ package it.unibo.risiko.model.deck;
 public class Card {
 
     // Private Fields, each card has a territory and a troop
-    private DeckTerritories territoryName;
-    private DeckTerritories territoryValue;
-    private DeckTroops troop;
-    private boolean isFaceUp;
+    private CardTerritories territoryName;
+    private CardTroops troop;
+    private CardObjectives objectiveDescription;
+    private String cardType;
 
     // Constructor
-    public Card(DeckTerritories territoryName, DeckTroops troop) {
+    public Card(CardTerritories territoryName, CardTroops troop) {
         this.territoryName = territoryName;
-        //this.territoryValue = territoryValue;
         this.troop = troop;
-        isFaceUp = true;
+        this.cardType = "Territory";
+    }
+
+    public Card() {
+        this.cardType = "Jolly";
+    }
+
+    public Card(CardObjectives objectiveDescription) {
+        this.objectiveDescription = objectiveDescription;
+        this.cardType = "Objective";
     }
 
     // Getters
     public String getTerritoryName() {
         return territoryName.getTerritoryName();
     }
-/*
-    public int getTerritoryValue() {
-        return  territoryValue.getTerritoryValue();
-    }
-*/
+
     public String getTroop() {
         return troop.getTroopName();
     }
 
-    public String cardValue() {
-        String str = "";
-        if (isFaceUp) {
-            str += territoryName.getTerritoryName() + " value: " + territoryValue.getTerritoryValue() + ", troop: " + troop.getTroopName();
-        } else {
-            str = "Face Down (nothing to see here)";
-        }
-        return str;
+    public String getObjectiveDescription() {
+        return objectiveDescription.getObjective();
+    }
+
+    public String getCardType() {
+        return cardType;
     }
 }

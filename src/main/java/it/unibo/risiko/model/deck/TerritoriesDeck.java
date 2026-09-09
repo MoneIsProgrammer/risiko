@@ -1,4 +1,5 @@
 package it.unibo.risiko.model.deck;
+import java.util.Random;
 
 /**
  * This is a sub-class, it is a specialized type of the Hand Class
@@ -6,21 +7,30 @@ package it.unibo.risiko.model.deck;
  * Methods: populate(), shuffle(), deal(hands, per_hand = n)
  * Deck
  */
-public class Deck extends Hand {
+public class TerritoriesDeck extends Hand {
+
+    // Function that returns a random value from the enum CardTroops
+    private final Random random = new Random();
+    CardTroops getRandomTroop() {
+        return (CardTroops.values()[random.nextInt(CardTroops.values().length)]);
+    }
     /* We already have a constructor from the Hand class,
     so there's no need to add a constructor here */
     /* In order to populate our deck, we don't need any values, 
     so this is a void method */
     public void populate() {
         /* To populate, we're going to loop through all of our 
-        territories and for each territory we'll add one of each troop */
-        for (DeckTerritories territoryName: DeckTerritories.values()) {
-            for (DeckTroops troopsName: DeckTroops.values()) {
-                Card card = new Card(territoryName, troopsName);
+        territories and for each territory we'll add a random troop */
+        for (CardTerritories territoryName: CardTerritories.values()) {
+                Card card = new Card(territoryName, getRandomTroop());
                 /* Here "this" refers to each individual deck we create */
                 this.add(card);
-            }
         }
+        /* Two jolly cards, they must have all three symbols (cannon, infantry and cavalry)
+        Card cj1 = new Card();
+        Card cj2 = new Card();
+        this.add(cj1);
+        this.add(cj2);*/
     }
     public void shuffle() {
         /* TODO */
