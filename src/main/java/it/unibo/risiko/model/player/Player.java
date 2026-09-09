@@ -2,6 +2,7 @@ package it.unibo.risiko.model.player;
 
 import java.util.Optional;
 
+import it.unibo.risiko.model.common.Identifiable;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
@@ -14,7 +15,7 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
  * It's designed so that each player behavior is differentiated by the Strategy Pattern,
  * meaning for each different behavior and external {@link PlayerStrategy} implementation is required.
  */
-public interface Player {
+public interface Player extends  Identifiable{
     /**
      * Returns the Strategy used by the player.
      * 

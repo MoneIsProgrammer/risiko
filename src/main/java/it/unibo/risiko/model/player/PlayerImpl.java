@@ -20,6 +20,7 @@ public final class PlayerImpl implements Player {
     private final PlayerStrategy strategy;
     private final RisikoColors color;
     private final Set<Territory> ownedTerritories = new HashSet<>();
+    private final String id;
 
     /**
      * Can only be created from {@link PlayerFactory} following a request.
@@ -32,6 +33,8 @@ public final class PlayerImpl implements Player {
         this.name = name;
         this.strategy = strategy;
         this.color = color;
+        this.id = color + name;
+
     }
 
     @Override
@@ -46,7 +49,7 @@ public final class PlayerImpl implements Player {
 
     @Override
     public Optional<AttackEvent> attack(GameMap map) {
-        return this.strategy.getAttack(map, null);
+        return this.strategy.getAttack(map, this.id);
     }
 
     @Override
@@ -57,6 +60,11 @@ public final class PlayerImpl implements Player {
     @Override
     public Optional<ReinforceEvent> reinforce() {
         return this.strategy.getReinforce();
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
     }
 
 }
