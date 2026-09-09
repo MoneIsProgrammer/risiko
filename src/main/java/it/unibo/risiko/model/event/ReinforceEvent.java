@@ -2,6 +2,8 @@ package it.unibo.risiko.model.event;
 
 import java.util.Map;
 
+import it.unibo.risiko.model.map.Territory;
+
 /**
  * Event that models the reinforcement of troops in owned territories.
  * 
@@ -10,7 +12,7 @@ import java.util.Map;
  */
 public record ReinforceEvent(
     String player,
-    Map<String, Integer> reinforcement 
+    Map<Territory, Integer> reinforcement 
 ) implements Event {
 
     /**
@@ -19,7 +21,7 @@ public record ReinforceEvent(
      * @param player that generates this event
      * @param reinforcement map of territory with troops to add to each one
      */
-    public ReinforceEvent(final String player, final Map<String, Integer> reinforcement) {
+    public ReinforceEvent(final String player, final Map<Territory, Integer> reinforcement) {
         this.player = player;
         this.reinforcement = Map.copyOf(reinforcement);
     }
@@ -39,7 +41,7 @@ public record ReinforceEvent(
      * @return an immutable copy of the territories and their number of additional troops
      */
     @Override
-    public Map<String, Integer> reinforcement() {
+    public Map<Territory, Integer> reinforcement() {
         return Map.copyOf(reinforcement);
     }
 

@@ -9,6 +9,7 @@ import it.unibo.risiko.model.event.AttackResultEvent;
 import it.unibo.risiko.model.event.EventVisitor;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.Territory;
 
 /**
  * EventStringVisitor visitor to get descriptive strings for the events.
@@ -56,8 +57,8 @@ public final class EventStringVisitor implements EventVisitor<List<String>> {
     @Override
     public List<String> visit(final ReinforceEvent event) {
         final List<String> out = new ArrayList<>();
-        for (final Entry<String, Integer> entry : event.reinforcement().entrySet()) {
-            out.add(event.player() + " added " + entry.getValue() + " troops to " + entry.getKey());
+        for (final Entry<Territory, Integer> entry : event.reinforcement().entrySet()) {
+            out.add(event.player() + " added " + entry.getValue() + " troops to " + entry.getKey().getName());
         }
         return List.copyOf(out);
     }
