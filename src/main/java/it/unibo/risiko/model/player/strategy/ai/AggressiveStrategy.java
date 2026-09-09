@@ -12,6 +12,7 @@ import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.map.Territory;
 import it.unibo.risiko.model.player.Player;
+import it.unibo.risiko.model.player.Roster;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -19,10 +20,18 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
  */
 public class AggressiveStrategy implements PlayerStrategy {
 
+    private final Roster roster;
+    private final GameMap map;
+
+    public AggressiveStrategy(Roster roster, GameMap map) {
+        this.roster = roster;
+        this.map = map;
+    }
+
     @Override
-    public Optional<AttackEvent> getAttack(GameMap map, Player owner) { // if it can attack it will
+    public Optional<AttackEvent> getAttack(Player owner) { // if it can attack it will
         var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = getBorderTerritories(map, playerTerritories);
+        var borders = getBorderTerritories(playerTerritories);
         var source = borders.stream().filter(a -> a.getArmies() > 1).max((a, b) -> Integer.compare(a.getArmies(), b.getArmies()));
         if (source.isEmpty()) {
             return Optional.empty();
@@ -34,18 +43,18 @@ public class AggressiveStrategy implements PlayerStrategy {
         if (destination.isEmpty()) {
             return  Optional.empty();
         }
-        return Optional.of(new AttackEvent(owner.getName(), 
-            destination.get().getOwnerId().get(), 
+        return Optional.of(new AttackEvent(owner, 
+            this.roster.getPlayer(destination.get().getOwnerId().get()), 
             attackerStrenght(source.get()), 
             defenderStrenght(destination.get()), 
-            source.get().getName(), 
-            destination.get().getName()));
+            source.get(), 
+            destination.get()));
     }
 
     @Override
-    public Optional<MoveEvent> getMove(GameMap map, Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
+    public Optional<MoveEvent> getMove(Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
         var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = getBorderTerritories(map, playerTerritories);
+        var borders = getBorderTerritories(playerTerritories);
         var source = playerTerritories.stream()
             .filter(a -> a.getArmies() > 2) 
             .filter(a -> !borders.contains(a))
@@ -54,19 +63,19 @@ public class AggressiveStrategy implements PlayerStrategy {
         if (source.isEmpty() || destination.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(new MoveEvent(owner.getName(),
-        source.get().getName(),
-        destination.get().getName(),
+        return Optional.of(new MoveEvent(owner,
+        source.get(),
+        destination.get(),
         source.get().getArmies() - 1));
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(GameMap map, Player owner) { // TODO add card bonuses when ready
+    public Optional<ReinforceEvent> getReinforce(Player owner) { // TODO add card bonuses when ready
         Map<Territory,Integer> reinforceMap = new HashMap<>();
         var playerTerritories = map.getTerritoriesOf(owner.getId());
         var reinforcements = Math.floor(playerTerritories.size() / 3); // arrotondamento per difetto
         reinforcements += map.getContinentBonus(owner.getId());
-        var borders = getBorderTerritories(map, playerTerritories);
+        var borders = getBorderTerritories(playerTerritories);
         for (int i = 0; i < reinforcements; i++) {
             var min = playerTerritories.stream().filter(a -> a.getArmies() < 2).findAny();
             if (min.isEmpty()) {
@@ -74,15 +83,15 @@ public class AggressiveStrategy implements PlayerStrategy {
             }
             reinforceMap.merge(min.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
         }
-        return Optional.of(new ReinforceEvent(owner.getName(), reinforceMap));
+        return Optional.of(new ReinforceEvent(owner, reinforceMap));
 
     }
 
-    private Set<Territory> getBorderTerritories(GameMap map, Set<Territory> playerTerritories) { // creates a set containing player owned territories that border enemies
+    private Set<Territory> getBorderTerritories(Set<Territory> playerTerritories) { // creates a set containing player owned territories that border enemies
         Set<Territory> borderTerritories = new HashSet<>();
         for (Territory territory : playerTerritories) {
             for (String adj  : territory.getAdjacentIds()) {
-                if (!playerTerritories.contains(map.getTerritory(adj))) {
+                if (!playerTerritories.contains(this.map.getTerritory(adj))) {
                     borderTerritories.add(territory);
                     break;
                 }

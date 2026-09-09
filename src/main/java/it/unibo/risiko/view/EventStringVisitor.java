@@ -20,26 +20,25 @@ public final class EventStringVisitor implements EventVisitor<List<String>> {
      * Just creates the object, to be used must be passed to events
      */
     public EventStringVisitor() {
-        //supposed to do nothing
     }
 
     @Override
     public List<String> visit(final AttackEvent event) {
-        final String out = event.attacker() + " attacks "
-        + event.defender()
-        + " from " + event.attackSource()
+        final String out = event.attacker().getName() + " attacks "
+        + event.defender().getName()
+        + " from " + event.attackSource().getName()
         + " with " + event.attackerStrength() 
-        + " troops to " + event.attackDestination()
+        + " troops to " + event.attackDestination().getName()
         + " defending with " + event.defenderStrength() + " units";
         return List.of(out);
     }
 
     @Override
     public List<String> visit(final AttackResultEvent event) {
-        final String attacker = event.attack().attacker() + " lost " + event.attackerLosses() + " troops";
-        final String defender = event.attack().defender() + " lost " + event.defenderLosses() + " troops";
+        final String attacker = event.attack().attacker().getName() + " lost " + event.attackerLosses() + " troops";
+        final String defender = event.attack().defender().getName() + " lost " + event.defenderLosses() + " troops";
         if (event.conquered()) {
-            final String conquered = event.attack().attacker() + " conquered " + event.attack().attackDestination();
+            final String conquered = event.attack().attacker() + " conquered " + event.attack().attackDestination().getName();
             return List.of(attacker, defender, conquered);
         }
         return List.of(attacker, defender);
@@ -47,10 +46,10 @@ public final class EventStringVisitor implements EventVisitor<List<String>> {
 
     @Override
     public List<String> visit(final MoveEvent event) {
-        final String out = event.player() 
+        final String out = event.player().getName() 
         + " moved " + event.troopsMoved() 
-        + " troops from " + event.sourceTerritory() 
-        + " to " + event.destinationTerritory();
+        + " troops from " + event.sourceTerritory().getName() 
+        + " to " + event.destinationTerritory().getName();
         return List.of(out);
     }
 
@@ -58,7 +57,7 @@ public final class EventStringVisitor implements EventVisitor<List<String>> {
     public List<String> visit(final ReinforceEvent event) {
         final List<String> out = new ArrayList<>();
         for (final Entry<Territory, Integer> entry : event.reinforcement().entrySet()) {
-            out.add(event.player() + " added " + entry.getValue() + " troops to " + entry.getKey().getName());
+            out.add(event.player().getName() + " added " + entry.getValue() + " troops to " + entry.getKey().getName());
         }
         return List.copyOf(out);
     }
