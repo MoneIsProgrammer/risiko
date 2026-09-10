@@ -2,6 +2,7 @@ package it.unibo.risiko.model.deck;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * This is a super class. It forms the basis of all hands including deck
@@ -35,6 +36,37 @@ public class Hand {
     public void shuffle() {
         Collections.shuffle(this.cards);
     }
+
+    // Function that returns a random value from the enum CardTroops
+    private final Random random = new Random();
+    CardTroops getRandomTroop() {
+        return (CardTroops.values()[random.nextInt(CardTroops.values().length)]);
+    }
+    /* We already have a constructor from the Hand class,
+    so there's no need to add a constructor here */
+    /* In order to populate our deck, we don't need any values, 
+    so this is a void method */
+    public void populate() {
+        /* To populate, we're going to loop through all of our 
+        territories and for each territory we'll add a random troop */
+        for (CardTerritories territoryName: CardTerritories.values()) {
+                Card card = new Card(territoryName, getRandomTroop());
+                /* Here "this" refers to each individual deck we create */
+                this.add(card);
+        }
+    }
+
+    public void addJolly() {
+        /* We'll add two jolly cards to the territories deck, they must have
+         all three symbols (cannon, infantry and cavalry) */
+        Card cj1 = new Card();
+        Card cj2 = new Card();
+        this.add(cj1);
+        this.add(cj2);
+    }
+
+     /* Try adding an option to cut the deck, split the deck (somwehat randomly)
+    Take the top half and swap it with the bottom half */
 
     /* To show hand */
     public String showHand() {

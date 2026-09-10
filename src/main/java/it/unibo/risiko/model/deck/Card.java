@@ -1,6 +1,10 @@
 package it.unibo.risiko.model.deck;
 
-/* I have removed territoryValue from the card for now */
+/** This class helps create a card of one of the three types: 
+* 1. Territory Card
+* 2. Jolly Card
+* 3. Objective Card
+*/
 public class Card {
 
     // Private Fields, each card has a territory and a troop
