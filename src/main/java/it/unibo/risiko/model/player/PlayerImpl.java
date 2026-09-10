@@ -1,10 +1,10 @@
 package it.unibo.risiko.model.player;
 
 import java.util.Optional;
-
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
@@ -15,7 +15,7 @@ public final class PlayerImpl implements Player {
     private final String name;
     private final PlayerStrategy strategy;
     private final RisikoColors color;
-    //private final Set<Territory> = new HashSet<>();
+    private final String id;
 
     /**
      * Can only be created from {@link PlayerFactory} following a request.
@@ -28,6 +28,8 @@ public final class PlayerImpl implements Player {
         this.name = name;
         this.strategy = strategy;
         this.color = color;
+        this.id = color + name;
+
     }
 
     @Override
@@ -41,18 +43,33 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Optional<AttackEvent> attack() {
-        return this.strategy.getAttack();
+    public Optional<AttackEvent> attack(GameMap map) {
+        return this.strategy.getAttack(this);
     }
 
     @Override
-    public Optional<MoveEvent> move() {
-        return this.strategy.getMove();
+    public Optional<MoveEvent> move(GameMap map) {
+        return this.strategy.getMove(null);
     }
 
     @Override
-    public Optional<ReinforceEvent> reinforce() {
-        return this.strategy.getReinforce();
+    public Optional<ReinforceEvent> reinforce(GameMap map) {
+        return this.strategy.getReinforce(null);
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override 
+    public RisikoColors getColor() {
+        return color;
     }
 
 }

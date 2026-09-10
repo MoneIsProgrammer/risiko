@@ -2,9 +2,11 @@ package it.unibo.risiko.model.player;
 
 import java.util.Optional;
 
+import it.unibo.risiko.model.common.Identifiable;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
+import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -13,7 +15,7 @@ import it.unibo.risiko.model.player.strategy.PlayerStrategy;
  * It's designed so that each player behavior is differentiated by the Strategy Pattern,
  * meaning for each different behavior and external {@link PlayerStrategy} implementation is required.
  */
-public interface Player {
+public interface Player extends  Identifiable{
     /**
      * Returns the Strategy used by the player.
      * 
@@ -30,23 +32,36 @@ public interface Player {
 
     /**
      * Used to get the next attack that the player wants to take.
-     * 
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<AttackEvent> attack();
+    Optional<AttackEvent> attack(GameMap map);
 
     /**
      * Used to get the transfer of troops from a territory to another.
-     * 
+     * @param map needs it to make correct decisions
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<MoveEvent> move();
+    Optional<MoveEvent> move(GameMap map);
 
     /**
      * Used to get the reinforcement to various territories.
-     * 
+     * @param map TODO
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<ReinforceEvent> reinforce();
+    Optional<ReinforceEvent> reinforce(GameMap map);
+
+    /**
+     * Getter for the player name
+     * 
+     * @return the name of the player
+     */
+    String getName();
+
+    /**
+     * Getter for the PlayerColor
+     * 
+     * @return the color of the player
+     */
+    RisikoColors getColor();
 
 }
