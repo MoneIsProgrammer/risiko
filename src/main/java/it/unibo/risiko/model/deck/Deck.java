@@ -5,15 +5,18 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * This is a super class. It forms the basis of all hands including deck
+ * This is a super class. It forms the basis of all decks including 
+ * territories deck and objectives deck
  * Attributes: cards
- * Methods: clear(), add(card), remove(card), give(card, otherHand), showHand()
+ * Methods: clear(), add(card), remove(card), shuffle(), 
+ * give(card, otherHand), showHand()
  */
-public class Hand {
+public class Deck {
     private ArrayList<Card> cards;
+    private final Random random = new Random();
 
-    // Constructor
-    public Hand() {
+    /* Constructor */
+    public Deck() {
         cards = new ArrayList<Card>();
     }
 
@@ -37,18 +40,17 @@ public class Hand {
         Collections.shuffle(this.cards);
     }
 
-    // Function that returns a random value from the enum CardTroops
-    private final Random random = new Random();
+    /* Function that returns a random value from the enum CardTroops */
     CardTroops getRandomTroop() {
         return (CardTroops.values()[random.nextInt(CardTroops.values().length)]);
     }
-    /* We already have a constructor from the Hand class,
-    so there's no need to add a constructor here */
+
     /* In order to populate our deck, we don't need any values, 
     so this is a void method */
-    public void populate() {
+    public void populateTerritoryDeck() {
         /* To populate, we're going to loop through all of our 
-        territories and for each territory we'll add a random troop */
+        territories and for each territory we'll add a random troop 
+        using the getRandomTroop() */
         for (CardTerritories territoryName: CardTerritories.values()) {
                 Card card = new Card(territoryName, getRandomTroop());
                 /* Here "this" refers to each individual deck we create */
@@ -56,6 +58,7 @@ public class Hand {
         }
     }
 
+    /* Adds two jolly cards to our territories deck */
     public void addJolly() {
         /* We'll add two jolly cards to the territories deck, they must have
          all three symbols (cannon, infantry and cavalry) */
@@ -65,8 +68,13 @@ public class Hand {
         this.add(cj2);
     }
 
-     /* Try adding an option to cut the deck, split the deck (somwehat randomly)
-    Take the top half and swap it with the bottom half */
+    /* Populate the objectives deck */
+    public void populateObjectiveDeck() {
+        for (CardObjectives objectiveDescription: CardObjectives.values()) {
+            Card card = new Card(objectiveDescription);
+            this.add(card);
+        }
+    }
 
     /* To show hand */
     public String showHand() {
@@ -83,7 +91,7 @@ public class Hand {
     /* Give a card by removing said card from the hand.
     First we need to know which card we are giving and 
     who are we giving it to (i.e. otherHand) */ 
-    public boolean give(Card card, Hand otherHand) {
+    public boolean give(Card card, Deck otherHand) {
         /* which is why we check whether we have said card,
         if we don't have the card, we are going to return false
         and do nothing else

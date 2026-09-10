@@ -1,8 +1,8 @@
 package it.unibo.risiko.model.deck;
 
 /**
- * Enum class is being used, as the values of each 
- * territory in the deck are fixed
+ * Enum class is being used, as the territories
+ * in the deck are fixed
  */
 public enum CardTerritories {
     AFGHANISTAN("Afghanistan"),
