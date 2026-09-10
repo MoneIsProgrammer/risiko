@@ -41,8 +41,8 @@ public class DefensiveStrategy implements PlayerStrategy {
         if (validAttacks.size() == 0) {
             return  Optional.empty();
         }
-        var strongestAttacker = validAttacks.keySet().stream().max((a,b) -> Integer.compare(a.getArmies(), b.getArmies())).get();
-        var weakestVictim = validAttacks.get(strongestAttacker).stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies())).get();
+        var strongestAttacker = validAttacks.keySet().stream().max(StrategyUtils.TERRITORY_COMPARATOR).get();
+        var weakestVictim = validAttacks.get(strongestAttacker).stream().min(StrategyUtils.TERRITORY_COMPARATOR).get();
         return Optional.of(new AttackEvent(owner,
             this.roster.getPlayer(weakestVictim.getOwnerId().get()),
             strongestAttacker.getArmies() > MAX_ATK_STR ? MAX_ATK_STR : strongestAttacker.getArmies() - 1, // this will always result in max armies, useful if the attack policy changes
@@ -52,31 +52,28 @@ public class DefensiveStrategy implements PlayerStrategy {
         ));
     }
 
-    private Function<Territory,Set<Territory>> createAdjEnemySet(String id) {
-        return new Function<Territory,Set<Territory>>() {
-
-            @Override
-            public Set<Territory> apply(Territory t) {
-                var set = t.getAdjacentIds().stream().map(a -> map.getTerritory(a)).filter(a->!a.getOwnerId().get().equals(id)).collect(Collectors.toSet()); //get enemies
-                return set.stream().filter(a -> a.getArmies() < t.getArmies()).collect(Collectors.toSet()); // get enemies weaker than attacker
-            }
-            
-        };
-    }
-
     @Override
-    public Optional<MoveEvent> getMove(Player owner) {//TODO fix movement only in adj territories
+    public Optional<MoveEvent> getMove(Player owner) {//println only dirty debugging purposes
         var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var border = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
-        var weakestBorder = border.stream().min((a,b) -> Integer.compare(a.getArmies(), b.getArmies()));
-        var strongestNonBorder = playerTerritories.stream().filter(a -> !border.contains(a)).max(StrategyUtils.TERRITORY_COMPARATOR);
-        if (weakestBorder.equals(strongestNonBorder) || weakestBorder.isEmpty() || strongestNonBorder.isEmpty()) {
+        var weakestBorder = border.stream().filter(a -> StrategyUtils.notIsolated(a, map)).min(StrategyUtils.TERRITORY_COMPARATOR);
+        if (weakestBorder.isEmpty()) {
+            System.out.println("no weakest border");
+            return Optional.empty();
+        }
+        var strongestAdj = weakestBorder.get().getAdjacentIds().stream()
+        .map(this.map::getTerritory)
+        .filter(a -> !border.contains(a))
+        .filter(a -> a.getOwnerId().get().equals(owner.getId()))
+        .max(StrategyUtils.TERRITORY_COMPARATOR);
+        if (strongestAdj.isEmpty()) {
+            System.out.println("no Strongest adj");
             return Optional.empty();
         }
         return Optional.of(new MoveEvent(owner,
-            strongestNonBorder.get(),
+            strongestAdj.get(),
             weakestBorder.get(),
-            strongestNonBorder.get().getArmies() - 1
+            strongestAdj.get().getArmies() - 1
         ));
     }
 
@@ -99,4 +96,17 @@ public class DefensiveStrategy implements PlayerStrategy {
         }
         return Optional.of(new ReinforceEvent(owner, reinforceMap));
     }
+
+    private Function<Territory,Set<Territory>> createAdjEnemySet(String id) {
+        return new Function<Territory,Set<Territory>>() {
+
+            @Override
+            public Set<Territory> apply(Territory t) {
+                var set = t.getAdjacentIds().stream().map(a -> map.getTerritory(a)).filter(a->!a.getOwnerId().get().equals(id)).collect(Collectors.toSet()); //get enemies
+                return set.stream().filter(a -> a.getArmies() < t.getArmies()).collect(Collectors.toSet()); // get enemies weaker than attacker
+            }
+            
+        };
+    }
+
 }

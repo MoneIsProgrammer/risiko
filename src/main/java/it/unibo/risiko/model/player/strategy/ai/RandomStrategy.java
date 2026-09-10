@@ -65,10 +65,10 @@ public class RandomStrategy implements PlayerStrategy {
         if (this.random.nextInt(3) == 0) {
             return Optional.empty();
         }
-        var playerTerritories = this.map.getTerritoriesOf(owner.getId());//TODO fix movement only in adj territories
+        var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var source = playerTerritories.stream().findAny();
-        var destination = playerTerritories.stream().findAny();
-        if (source.isEmpty()|| destination.isEmpty() || source.get().getArmies() < 3) {
+        var destination = source.get().getAdjacentIds().stream().map(this.map::getTerritory).filter(a -> a.getOwnerId().get().equals(owner.getId())).findAny();
+        if (destination.isEmpty() || source.get().getArmies() < 3) { // source has no allies or too weak to pass armies
             return Optional.empty();
         }
         var moveStr = this.random.nextInt(1, source.get().getArmies());

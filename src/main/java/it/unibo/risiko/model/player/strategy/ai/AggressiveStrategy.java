@@ -3,6 +3,8 @@ package it.unibo.risiko.model.player.strategy.ai;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
@@ -28,14 +30,16 @@ public class AggressiveStrategy implements PlayerStrategy {
 
     @Override
     public Optional<AttackEvent> getAttack(Player owner) { // if it can attack it will
-        var playerTerritories = map.getTerritoriesOf(owner.getId());
+        var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
-        var source = borders.stream().filter(a -> a.getArmies() > 1).max(StrategyUtils.TERRITORY_COMPARATOR);
+        var source = borders.stream()
+        .filter(a -> a.getArmies() > 1)
+        .max(StrategyUtils.TERRITORY_COMPARATOR);
         if (source.isEmpty()) {
             return Optional.empty();
         }
         var destination = source.get().getAdjacentIds().stream() // ok because souce is a border
-            .map(a -> map.getTerritory(a))
+            .map(map::getTerritory)
             .filter(a -> !playerTerritories.contains(a))
             .min(StrategyUtils.TERRITORY_COMPARATOR);
         if (destination.isEmpty()) {
@@ -51,14 +55,26 @@ public class AggressiveStrategy implements PlayerStrategy {
 
     @Override
     public Optional<MoveEvent> getMove(Player owner) { // take the territory that isnt on the border with the most troops and moves all - 1 to the border with fewer troops.
-        var playerTerritories = map.getTerritoriesOf(owner.getId());
-        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);//TODO fix movement only in adj territories
-        var source = playerTerritories.stream()
-            .filter(a -> a.getArmies() > 2) 
-            .filter(a -> !borders.contains(a))
-            .max(StrategyUtils.TERRITORY_COMPARATOR);
-        var destination = borders.stream().min(StrategyUtils.TERRITORY_COMPARATOR);
-        if (source.isEmpty() || destination.isEmpty()) {
+        var playerTerritories = this.map.getTerritoriesOf(owner.getId());
+        var borders = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
+        var source = borders.stream()
+        .map(a -> a.getAdjacentIds())
+        .flatMap(Set::stream) //flattens the stream
+        .map(this.map::getTerritory)
+        .filter(a -> a.getOwnerId().get().equals(owner.getId())) // only owned by player
+        .filter(a -> !borders.contains(a)) //remove borders
+        .filter(a -> a.getArmies() > 2) // 3 armies at least
+        .max(StrategyUtils.TERRITORY_COMPARATOR);
+        if (source.isEmpty()) {
+            System.out.println("Move got no source");
+            return Optional.empty();
+        }
+        var destination = source.get().getAdjacentIds().stream() //weakest border territory adj to the strongest non border
+        .map(this.map::getTerritory)
+        .filter(borders::contains)
+        .min(StrategyUtils.TERRITORY_COMPARATOR);
+        if (destination.isEmpty()) {
+            System.out.println("Move got no dest");
             return Optional.empty();
         }
         return Optional.of(new MoveEvent(owner,

@@ -27,4 +27,14 @@ public class StrategyUtils {
         }
         return  borderTerritories;
     }
+    
+        public static boolean notIsolated(Territory territory, GameMap map) { // not isolated if has 2 neighbor allies, there are some edgecases
+        var counter = 0;
+        for (String adj : territory.getAdjacentIds()) {
+            if (map.getTerritory(adj).getOwnerId().get().equals(territory.getOwnerId().get())) {
+                counter++;
+            }
+        }
+        return counter >= 2;
+    }
 }
