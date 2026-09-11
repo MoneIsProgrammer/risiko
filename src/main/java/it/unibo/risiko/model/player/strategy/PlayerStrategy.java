@@ -3,6 +3,7 @@ package it.unibo.risiko.model.player.strategy;
 import java.util.Optional;
 
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.player.Player;
@@ -30,7 +31,12 @@ public interface PlayerStrategy {
     /**
      * Used to generate a reinforcement event, if unable generates nothing.
      * @param owner TODO
-     * @return an {@link Optional} containing the event, if event can't be generated returns {@link Optional#empty()}
+     * @param armies TODO
+     * @return a ReinforceEvent mapping the territories to reinforce and how many armies to add
      */
-    Optional<ReinforceEvent> getReinforce(Player owner);
+    ReinforceEvent getReinforce(Player owner, int armies);
+
+    ReinforceEvent getSetup(Player owner, int startingForces);
+
+    Optional<CardEvent> playCards();
 }
