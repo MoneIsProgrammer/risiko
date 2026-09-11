@@ -6,7 +6,6 @@ import it.unibo.risiko.model.common.Identifiable;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
-import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
 /**
@@ -34,21 +33,22 @@ public interface Player extends  Identifiable{
      * Used to get the next attack that the player wants to take.
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<AttackEvent> attack(GameMap map);
+    Optional<AttackEvent> attack();
 
     /**
      * Used to get the transfer of troops from a territory to another.
-     * @param map needs it to make correct decisions
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<MoveEvent> move(GameMap map);
+    Optional<MoveEvent> move();
 
     /**
      * Used to get the reinforcement to various territories.
-     * @param map TODO
+     * @param armies TODO
      * @return an {@link Optional} containing the event if it can be generated, {@link Optional#empty()} otherwise
      */
-    Optional<ReinforceEvent> reinforce(GameMap map);
+    ReinforceEvent reinforce(int armies);
+
+    ReinforceEvent setupPlacement();
 
     /**
      * Getter for the player name
@@ -63,5 +63,7 @@ public interface Player extends  Identifiable{
      * @return the color of the player
      */
     RisikoColors getColor();
+
+    void setArmies(int armies);
 
 }

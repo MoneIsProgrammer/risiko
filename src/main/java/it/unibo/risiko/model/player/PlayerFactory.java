@@ -15,5 +15,5 @@ public interface PlayerFactory {
      * 
      * @return the player built following specifications
      */
-    Player generatePlayer(PlayerRequest request, Roster roster, GameMap map);
+    Player generatePlayer(PlayerRequest request, Roster roster, GameMap map, int nOfPlayers);
 }

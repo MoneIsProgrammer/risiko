@@ -12,11 +12,30 @@ import it.unibo.risiko.model.player.strategy.ai.RandomStrategy;
 public class PlayerFactoryImpl implements PlayerFactory {
 
     @Override
-    public Player generatePlayer(PlayerRequest playerRequest, Roster roster, GameMap map) throws NullPointerException {
+    public Player generatePlayer(PlayerRequest playerRequest, Roster roster, GameMap map, int nOfPlayers) throws NullPointerException {
         Objects.requireNonNull(playerRequest);
-        return new PlayerImpl(playerRequest.color(), playerRequest.name(), createStrategy(playerRequest.ai(), roster, map));
+        return new PlayerImpl(playerRequest.color(), playerRequest.name(), createStrategy(playerRequest.ai(), roster, map), startingForces(nOfPlayers));
     }
     
+    private int startingForces(int n) {
+        switch (n) {
+            case 3:
+                return 35;
+                
+            case 4:
+                return 30;
+
+            case 5:
+                return 25;
+
+            case 6:
+                return 20;
+        
+            default:
+                throw new IllegalArgumentException("players are not between 3 and 6 inclusive");
+        }
+    }
+
     private PlayerStrategy createStrategy(PlayerStrategyRequest request, Roster roster, GameMap map) {
         Objects.requireNonNull(request);
         if(request.equals(PlayerStrategyRequest.AGGRESSIVE)) {
