@@ -37,6 +37,12 @@ public interface MapView extends GameObserver {
     Optional<String> getSelected();
 
     /**
+     * removes the selection, if there is one. It is a method of its own because
+     * {@link #setSelected(String)} only accepts territories that exist on the map.
+     */
+    void clearSelection();
+
+    /**
      * marks a group of territories, for example the ones that can be attacked from the
      * selected one, an empty set clears the previous marking.
      *
