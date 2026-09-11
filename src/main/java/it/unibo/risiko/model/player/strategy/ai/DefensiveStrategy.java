@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
@@ -78,7 +79,7 @@ public class DefensiveStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(Player owner) {
+    public ReinforceEvent getReinforce(Player owner, int armies) {
         Map<Territory,Integer> reinforceMap = new HashMap<>();
         var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var border = StrategyUtils.getBorderTerritories(playerTerritories, this.map);
@@ -94,7 +95,7 @@ public class DefensiveStrategy implements PlayerStrategy {
             }
             reinforceMap.merge(weakest.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
         }
-        return Optional.of(new ReinforceEvent(owner, reinforceMap));
+        return new ReinforceEvent(owner, reinforceMap);
     }
 
     private Function<Territory,Set<Territory>> createAdjEnemySet(String id) {
@@ -107,6 +108,17 @@ public class DefensiveStrategy implements PlayerStrategy {
             }
             
         };
+    }
+
+    @Override
+    public ReinforceEvent getSetup(Player owner, int startingForces) {
+        return this.getReinforce(owner, startingForces);
+    }
+
+    @Override
+    public Optional<CardEvent> playCards() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'playCards'");
     }
 
 }

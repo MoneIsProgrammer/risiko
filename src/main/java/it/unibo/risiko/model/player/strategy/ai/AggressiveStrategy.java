@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
@@ -84,7 +85,7 @@ public class AggressiveStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(Player owner) { // TODO add card bonuses when ready
+    public ReinforceEvent getReinforce(Player owner, int armies) { // TODO add card bonuses when ready
         Map<Territory,Integer> reinforceMap = new HashMap<>();
         var playerTerritories = map.getTerritoriesOf(owner.getId());
         var reinforcements = Math.floor(playerTerritories.size() / 3); // arrotondamento per difetto
@@ -97,7 +98,7 @@ public class AggressiveStrategy implements PlayerStrategy {
             }
             reinforceMap.merge(min.get(), 1,Integer::sum); // sets the number of time a territory is to be reinforced with 1 troop
         }
-        return Optional.of(new ReinforceEvent(owner, reinforceMap));
+        return new ReinforceEvent(owner, reinforceMap);
 
     }
 
@@ -118,5 +119,16 @@ public class AggressiveStrategy implements PlayerStrategy {
         else {
             return str;
         }
+    }
+
+    @Override
+    public ReinforceEvent getSetup(Player owner, int startingForces) {
+        return this.getReinforce(owner, startingForces);
+    }
+
+    @Override
+    public Optional<CardEvent> playCards() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'playCards'");
     }
 }

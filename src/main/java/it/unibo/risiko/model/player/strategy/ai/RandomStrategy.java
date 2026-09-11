@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
@@ -76,13 +77,24 @@ public class RandomStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(Player owner) {
+    public ReinforceEvent getReinforce(Player owner, int armies) {
         Map<Territory,Integer> reinforceMap = new HashMap<>();
         var playerTerritories = this.map.getTerritoriesOf(owner.getId());
         var reinforcements = Math.floor(playerTerritories.size() / 3) + this.map.getContinentBonus(owner.getId());
         for (int i = 0; i < reinforcements; i++) {
             reinforceMap.merge(playerTerritories.stream().findAny().get(), 1,Integer::sum);
         }
-        return Optional.of(new ReinforceEvent(owner, reinforceMap));
+        return new ReinforceEvent(owner, reinforceMap);
+    }
+
+    @Override
+    public ReinforceEvent getSetup(Player owner, int startingForces) {
+        return this.getReinforce(owner, startingForces);
+    }
+
+    @Override
+    public Optional<CardEvent> playCards() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'playCards'");
     }
 }
