@@ -10,7 +10,7 @@ import java.util.Random;
  * Attributes: cards
  * Methods: clear(), add(card), remove(card), shuffle()
  */
-public class Deck {
+public class Deck { //TODO Forse mancano metodi per ripopolare il deck dopo che è finito con le carte già giocate
     private ArrayList<Card> cards;
     private final Random random = new Random();
 
@@ -50,7 +50,7 @@ public class Deck {
         /* To populate, we're going to loop through all of our 
         territories and for each territory we'll add a random troop 
         using the getRandomTroop() */
-        for (CardTerritories territoryName: CardTerritories.values()) {
+        for (CardTerritories territoryName: CardTerritories.values()) { //TODO se ho capito bene questo potrebbe creare tutte e 42 le carte con la stessa truppa quando dovrebbero essere 14 per truppa
                 Card card = new Card(territoryName, getRandomTroop());
                 /* Here "this" refers to each individual deck we create */
                 this.add(card);
