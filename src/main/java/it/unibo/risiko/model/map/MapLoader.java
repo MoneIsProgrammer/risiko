@@ -77,6 +77,8 @@ public final class MapLoader {
     private static void readLine(final String line, final int lineNumber, final GameMapBuilder builder)
             throws IOException {
         final String[] fields = line.split(SEPARATOR);
+        //a line made only of separators is split into an empty array, without this it crashes
+        check(fields.length > 0, lineNumber, "there is nothing on this line");
         final String type = fields[0].trim();
         try {
             switch (type) {

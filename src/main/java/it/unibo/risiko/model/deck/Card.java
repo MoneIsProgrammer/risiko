@@ -1,42 +1,50 @@
 package it.unibo.risiko.model.deck;
 
-/* I have removed territoryValue from the card for now */
+/** This class helps create a card of one of the three types: 
+* 1. Territory Card
+* 2. Jolly Card
+* 3. Objective Card
+*/
 public class Card {
 
     // Private Fields, each card has a territory and a troop
-    private DeckTerritories territoryName;
-    private DeckTerritories territoryValue;
-    private DeckTroops troop;
-    private boolean isFaceUp;
+    private CardTerritories territoryName;
+    private CardTroops troop;
+    private CardObjectives objectiveDescription;
+    private CardType cardType;
 
-    // Constructor
-    public Card(DeckTerritories territoryName, DeckTroops troop) {
+    // Constructor for territory cards
+    public Card(CardTerritories territoryName, CardTroops troop) {
         this.territoryName = territoryName;
-        //this.territoryValue = territoryValue;
         this.troop = troop;
-        isFaceUp = true;
+        this.cardType = CardType.TERRITORY;
+    }
+
+    // Constructor for jolly cards
+    public Card() {
+        this.cardType = CardType.JOLLY;
+    }
+
+    // Constructor for objective cards
+    public Card(CardObjectives objectiveDescription) {
+        this.objectiveDescription = objectiveDescription;
+        this.cardType = CardType.OBJECTIVE;
     }
 
     // Getters
     public String getTerritoryName() {
         return territoryName.getTerritoryName();
     }
-/*
-    public int getTerritoryValue() {
-        return  territoryValue.getTerritoryValue();
-    }
-*/
+
     public String getTroop() {
         return troop.getTroopName();
     }
 
-    public String cardValue() {
-        String str = "";
-        if (isFaceUp) {
-            str += territoryName.getTerritoryName() + " value: " + territoryValue.getTerritoryValue() + ", troop: " + troop.getTroopName();
-        } else {
-            str = "Face Down (nothing to see here)";
-        }
-        return str;
+    public String getObjectiveDescription() {
+        return objectiveDescription.getObjective();
+    }
+
+    public String getCardType() {
+        return cardType.getCardType();
     }
 }
