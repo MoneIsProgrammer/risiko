@@ -2,8 +2,8 @@ package it.unibo.risiko.model.player;
 
 import java.util.Optional;
 
-import it.unibo.risiko.model.common.Registry;
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.map.GameMap;
@@ -33,7 +33,7 @@ public class HumanStrategyImpl implements HumanStrategy{
     }
 
     @Override
-    public Optional<ReinforceEvent> getReinforce(Player owner) {
+    public ReinforceEvent getReinforce(Player owner, int armies) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getReinforce'");
     }
@@ -78,6 +78,18 @@ public class HumanStrategyImpl implements HumanStrategy{
     public void moveStrenght(int strength) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'moveStrenght'");
+    }
+
+    @Override
+    public ReinforceEvent getSetup(Player owner, int startingForces) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSetup'");
+    }
+
+    @Override
+    public Optional<CardEvent> playCards() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'playCards'");
     }
 
 }
