@@ -1,6 +1,10 @@
 package it.unibo.risiko.model.player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import it.unibo.risiko.model.deck.Card;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
@@ -17,6 +21,7 @@ public final class PlayerImpl implements Player {
     private final RisikoColors color;
     private final String id;
     private int reinforces;
+    private final List<Card> hand = new ArrayList<>();
 
     /**
      * Can only be created from {@link PlayerFactory} following a request.
@@ -87,8 +92,12 @@ public final class PlayerImpl implements Player {
 
     @Override
     public Optional<CardEvent> playCard() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'playCard'");
+        return this.strategy.playCards(hand);
+    }
+
+    @Override
+    public void addCard(Card card) {
+        this.hand.add(card);
     }
 
 }

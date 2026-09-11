@@ -3,6 +3,7 @@ package it.unibo.risiko.model.player;
 import java.util.Optional;
 
 import it.unibo.risiko.model.common.Identifiable;
+import it.unibo.risiko.model.deck.Card;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
@@ -68,5 +69,7 @@ public interface Player extends  Identifiable{
     void setArmies(int armies);
 
     Optional<CardEvent> playCard();
+
+    void addCard(Card card);
 
 }

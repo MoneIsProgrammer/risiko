@@ -1,7 +1,9 @@
 package it.unibo.risiko.model.player.strategy;
 
+import java.util.List;
 import java.util.Optional;
 
+import it.unibo.risiko.model.deck.Card;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
@@ -38,5 +40,5 @@ public interface PlayerStrategy {
 
     ReinforceEvent getSetup(Player owner, int startingForces);
 
-    Optional<CardEvent> playCards();
+    Optional<CardEvent> playCards(List<Card> hand);
 }

@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.AttackResultEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.EventVisitor;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
@@ -60,6 +61,12 @@ public final class EventStringVisitor implements EventVisitor<List<String>> {
             out.add(event.player().getName() + " added " + entry.getValue() + " troops to " + entry.getKey().getName());
         }
         return List.copyOf(out);
+    }
+
+    @Override
+    public List<String> visit(CardEvent cardEvent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visit'");
     }
 
 }

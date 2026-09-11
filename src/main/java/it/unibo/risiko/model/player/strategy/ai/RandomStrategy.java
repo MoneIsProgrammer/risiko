@@ -1,9 +1,12 @@
 package it.unibo.risiko.model.player.strategy.ai;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+
+import it.unibo.risiko.model.deck.Card;
 import it.unibo.risiko.model.event.AttackEvent;
 import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
@@ -93,7 +96,7 @@ public class RandomStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Optional<CardEvent> playCards() {
+    public Optional<CardEvent> playCards(List<Card> hand) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'playCards'");
     }

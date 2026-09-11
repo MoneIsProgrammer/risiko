@@ -13,12 +13,9 @@ import javafx.scene.text.Font;
 
 public class MainMenuScene extends Scene{
     
-    private static final double HEIGHT_MULT = 0.10;
-    private static final double WIDTH_MULT = 0.25;
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
     private final VBox main;
-    private VBox buttonBox;
     private final Button newGameButton;
     private final Button loadGameButton;
     private final Button exitButton;
