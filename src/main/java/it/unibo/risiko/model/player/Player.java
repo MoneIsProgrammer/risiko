@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unibo.risiko.model.common.Identifiable;
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
@@ -65,5 +66,7 @@ public interface Player extends  Identifiable{
     RisikoColors getColor();
 
     void setArmies(int armies);
+
+    Optional<CardEvent> playCard();
 
 }

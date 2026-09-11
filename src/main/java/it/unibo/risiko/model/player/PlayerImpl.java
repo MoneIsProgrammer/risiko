@@ -2,9 +2,9 @@ package it.unibo.risiko.model.player;
 
 import java.util.Optional;
 import it.unibo.risiko.model.event.AttackEvent;
+import it.unibo.risiko.model.event.CardEvent;
 import it.unibo.risiko.model.event.MoveEvent;
 import it.unibo.risiko.model.event.ReinforceEvent;
-import it.unibo.risiko.model.map.GameMap;
 import it.unibo.risiko.model.player.strategy.HumanStrategy;
 import it.unibo.risiko.model.player.strategy.PlayerStrategy;
 
@@ -16,6 +16,7 @@ public final class PlayerImpl implements Player {
     private final PlayerStrategy strategy;
     private final RisikoColors color;
     private final String id;
+    private int reinforces;
 
     /**
      * Can only be created from {@link PlayerFactory} following a request.
@@ -24,12 +25,12 @@ public final class PlayerImpl implements Player {
      * @param name  name of the player
      * @param strategy  strategy that this player will use during its turns
      */
-    protected PlayerImpl(final RisikoColors color, final String name, final PlayerStrategy strategy) {
+    protected PlayerImpl(final RisikoColors color, final String name, final PlayerStrategy strategy, final int startingForces) {
         this.name = name;
         this.strategy = strategy;
         this.color = color;
         this.id = color + name;
-
+        this.reinforces = startingForces;
     }
 
     @Override
@@ -43,18 +44,18 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public Optional<AttackEvent> attack(GameMap map) {
+    public Optional<AttackEvent> attack() {
         return this.strategy.getAttack(this);
     }
 
     @Override
-    public Optional<MoveEvent> move(GameMap map) {
-        return this.strategy.getMove(null);
+    public Optional<MoveEvent> move() {
+        return this.strategy.getMove(this);
     }
 
     @Override
-    public Optional<ReinforceEvent> reinforce(GameMap map) {
-        return this.strategy.getReinforce(null);
+    public ReinforceEvent reinforce(int armies) {
+        return this.strategy.getReinforce(this, armies);
     }
 
     @Override
@@ -70,6 +71,24 @@ public final class PlayerImpl implements Player {
     @Override 
     public RisikoColors getColor() {
         return color;
+    }
+
+    @Override
+    public ReinforceEvent setupPlacement() {
+        int armiesToPlace = reinforces > 3 ? 3 : reinforces;
+        reinforces -= armiesToPlace;
+        return this.strategy.getSetup(this, armiesToPlace);
+    }
+
+    @Override
+    public void setArmies(int armies) {
+        this.reinforces = armies;
+    }
+
+    @Override
+    public Optional<CardEvent> playCard() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'playCard'");
     }
 
 }

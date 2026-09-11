@@ -13,7 +13,7 @@ public class RosterImpl implements Roster {
         this.roster = new Registry<Player>("players");
         PlayerFactory factory = new PlayerFactoryImpl();
         for (PlayerRequest request : players) {
-            this.roster.add(factory.generatePlayer(request, this, map));
+            this.roster.add(factory.generatePlayer(request, this, map, players.size()));
         }
     }
 
