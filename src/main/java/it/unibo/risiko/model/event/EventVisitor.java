@@ -37,4 +37,12 @@ public interface EventVisitor<T> {
      * @return type to be determined in the implementation
      */
     T visit(ReinforceEvent event);
+
+    /**
+     * Used to perform operations that need to use the specifics of CardEvent.
+     * 
+     * @param event to be visited
+     * @return type to be determined in the implementation
+     */
+    T visit(CardEvent cardEvent);
 }
